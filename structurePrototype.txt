@@ -1,0 +1,104 @@
+################################################################################
+##### BOARD REPRESENTATION
+################################################################################
+
+This is an object of the entire board.
+
+# Variables:
+    vertices:
+        A array of custom Vertex objects. This will always be a size of 80.
+    hexes:
+        A array of custom Hex objects. This will always be a size of 30.
+
+################################################################################
+##### VERTEX REPRESENTATION
+################################################################################
+
+This represents a single vertex on the board. Its number is designated by its
+position in the vertices array. Also, docks will always be on the same number
+vertices, so we don't code them in here.
+
+# Variables:
+    empty
+        A boolean determining whether there is something on the vertex or not.
+    playerName
+        A single character designating the player. It will be either A, B, C, or
+        D.
+    city
+        A boolean determining whether this vertex is a city or a settlement. If
+        there is neither, this variable does nothing, as empty will take care of
+        that.
+
+################################################################################
+##### HEX REPRESENTATION
+################################################################################
+
+This represents a single hex on the board. Its number is designated by its
+position in the hexes array.
+
+# Variables:
+    resourceType
+        A string determining what resource it gives out, e.g sheep, wood, etc.
+    number
+        An integer that is the number on the hex.
+
+################################################################################
+##### PLAYERLIST REPRESENTATION
+################################################################################
+
+This will be a list of the Player class. This should hold between 1 and 4
+Players.
+
+################################################################################
+##### PLAYER REPRESENTATION
+################################################################################
+
+This is a single Player of the game.
+
+# Variables:
+    wheatCount
+        Holds the number of wheats this player has.
+    sheepCount
+        Holds the number of sheep this player has.
+    brickCount
+        Holds the number of bricks this player has.
+    oreCount
+        Holds the number of ore this player has.
+    woodCount
+        Holds the number of wood this player has.
+    totalResources
+        The total number of resource cards this player has. Does NOT include
+        development cards.
+    devCards
+        A list in which the object type is a custom DevelopmentCard class.
+    settlementList
+        A list of ACTIVE settlements on the board. This number cannot exceed 5.
+        It will contain a custom object Settlement.
+    citiesList
+        A list of ACTIVE cities on the board. This number cannot exceed 4. It
+        will contain a custom object City.
+    roadsList
+        A list of ACTIVE roads on the board. This number cannot exceed 15. It
+        will contain a custom object Road.
+    activeKnights
+        Holds the number of active knights this player has.
+
+################################################################################
+##### DEVELOPMENT CARD DECK REPRESENTATION
+################################################################################
+
+This is the deck of development cards. None of these are being used, and this
+deck is initialized at game start.
+
+# Representation:
+    A queue in which the object type is a custom DevelopmentCard class.
+
+################################################################################
+##### DEVELOPMENT CARD REPRESENTATION
+################################################################################
+
+This represents a single development card.
+
+# Variables:
+    name
+        Name of the development card, like "Knight" or "Monopoly".
