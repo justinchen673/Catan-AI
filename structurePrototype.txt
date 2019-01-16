@@ -6,9 +6,9 @@ This is an object of the entire board.
 
 # Variables:
     vertices:
-        A array of custom Vertex objects. This will always be a size of 80.
+        A array of custom Vertex objects. This will always be a size of 54.
     hexes:
-        A array of custom Hex objects. This will always be a size of 30.
+        A array of custom Hex objects. This will always be a size of 19.
 
 ################################################################################
 ##### VERTEX REPRESENTATION
@@ -41,6 +41,9 @@ position in the hexes array.
         A string determining what resource it gives out, e.g sheep, wood, etc.
     number
         An integer that is the number on the hex.
+    robber
+        A boolean indicating whether a robber is on this hex. If it is true, no
+        resources are gained from this hex.
 
 ################################################################################
 ##### PLAYERLIST REPRESENTATION
@@ -56,6 +59,8 @@ Players.
 This is a single Player of the game.
 
 # Variables:
+    name
+        A single character, A-D
     wheatCount
         Holds the number of wheats this player has.
     sheepCount
@@ -81,7 +86,13 @@ This is a single Player of the game.
         A list of ACTIVE roads on the board. This number cannot exceed 15. It
         will contain a custom object Road.
     activeKnights
-        Holds the number of active knights this player has.
+        Holds the number of active knights this player has. This is for
+        determining who owns the largest army.
+    largestArmy
+        A boolean that determines whether this player owns the largest army.
+        Only one player can own this.
+    longestRoad
+        A boolean that determines whether this player owns the longest road.
 
 ################################################################################
 ##### DEVELOPMENT CARD DECK REPRESENTATION
