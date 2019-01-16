@@ -27,6 +27,11 @@ class Hex:
         else:
             self.robber = False
 
+    # Prints the resource type and the number. This should ONLY be used for
+    # debugging purposes.
+    def debugPrint(self):
+        print(self.resourceType, self.number)
+
 class Board:
     '''
     This is an object of the entire board.
@@ -36,3 +41,7 @@ class Board:
     def __init__(self, vertices, hexes):
         self.vertices = vertices
         self.hexes = hexes
+
+    def printBoard(self):
+        ''' NIC YOUR CODE GOES HERE '''
+        print()
