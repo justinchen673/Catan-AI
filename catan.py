@@ -4,7 +4,7 @@ from board import *
 
 # Creates all the players and returns the list they are all in.
 def initializePlayers():
-    numPlayers = input("How many people are playing? ")
+    numPlayers = int(input("How many people are playing? "))
     if (numPlayers > 4 or numPlayers < 2):
         print("There can only be 2-4 players.")
         exit()
