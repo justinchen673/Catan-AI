@@ -1,0 +1,131 @@
+INITIAL SETUP
+
+1. Determine who goes first
+2. Print board
+3. Request settlement from player
+4. Print board
+5. Request road from player
+6. Loop through 2 through 5 through the list, and then do it again backwards.
+
+GAMEPLAY
+
+1. Roll the dice
+    a. Everyone automatically picks up cards
+    b. If it's a 7, run through people with more than 7 cards and ask what they
+       want to discard. Then, ask what hex the current player wants to put the
+       robber on.
+2. Several different options for the player now.
+    - Request a trade
+        a. Select player
+        b. Select resource to GIVE
+        c. Select number of resources to GIVE
+        d. Select resource to TAKE
+        e. Select number of resources to TAKE
+        f. Confirm trade
+    - Trade with the bank (take into account ports)
+        a. Select resource to GIVE
+        b. Select number of resources to GIVE
+        c. Select resource to TAKE
+        d. If the trade is legal, it will be done.
+    - Build something
+        a. Select settlement, city, road, or dev card.
+        b. Settlement will ask what vertex you want to place it on.
+        c. City will print the board again marking your settlements 1-n
+        d. Road will ask between what two vertices
+        e. Dev card will give you a random development card from the deck.
+    - Use development cards
+        a. Depending on type, different action will take place
+
+PSUEDOCODE
+
+placeFirstSettlements(board, playerList):
+    # Determine who goes first
+
+    startIndex = rand(1, 4)
+    for i in range(0, startIndex):
+        playerList.append(playerList[0])
+        playerList.pop(0)
+
+    # Loop through players and ask for settlements and roads
+
+    for i in playerList:
+        board.printBoard
+        print("Player ", i.getName, ":")
+
+        # Get settlement
+
+        firstVertex = 0
+        notPlaced = True
+        while(notPlaced):
+            x = input("Select the vertex where you want to place your first settlement: ")
+            # canPlace will check if it's between 0 and 54, if nothing's on the vertex, and no one is adjacent. Second boolean checks if it's the initial placement or not.
+            if (board.canPlaceSettlement(x, True)):
+                # legal placement
+                # add settlement makes that vertex in vertices not empty and fills the name
+                board.addSettlment(i.getName, x)
+                firstVertex = x
+                notPlaced = True
+            else:
+                # Non-legal placement
+                print("Please enter a valid vertex.")
+        board.printBoard
+
+        # Get road
+
+        notPlaced = True
+        while(notPlaced):
+            x = input("Your road will start at vertex ", firstVertex, ". Which vertex do you want it to link to? ")
+            # canPlaceRoad will check the adjacency matrix for both vertexes. 6 total checks, which is easy.
+            if (board.canPlaceRoad(x, firstVertex)):
+                # legal placement
+                # add road must add to both the adjacency matrix and the roads list
+                board.addRoad(Road(i.getName, x, firstVertex))
+                notPlaced = True
+            else:
+                # Non-legal placement
+                print("Please enter a valid vertex.")
+        board.printBoard
+
+    # now do same thing but in reverse order
+
+
+diceRoll():
+    die1 = rand(1, 6)
+    die2 = rand(1, 6)
+    return die1 + die2
+
+getPlayerFromName(name, playerList):
+    for i in playerList
+        if i.name = name
+            return i
+
+
+handOutResources(board, playerList, roll):
+    # run through all hexces
+    for i in range(0, 16):
+        # If the roll is the number on the board
+        if (roll == board.hexes[i].number and board.hexes[i].robber == False):
+            for j in board.hexRelationMatrix[i]:
+                # j is the vertex number that can get resources
+                if board.vertices[j].isEmpty == False:
+                    # Someone's getting a resource
+                    getPlayerFromName(board.vertices[j].playerName).resourceDict[board.hexes[i].resourceType] += 2
+
+
+manageRobber(board, playerList):
+    for i in playerList:
+        if i.totalResources > 7:
+            # must discard
+            print(Player, you have more than 7 resources. Which would you like to discard? (first type the resource name))
+            resource = input(player hand)
+            if resource in player.resourceDict:
+                
+
+
+commenceTurn(board, playerList, currentIndex)
+    roll = diceRoll()
+    print(Roll was a , roll)
+    if (roll != 7):
+        handOutResources(board, playerList, roll)
+    else:
+        manageRobber()
