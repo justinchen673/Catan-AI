@@ -41,6 +41,33 @@ class Board:
     def __init__(self, vertices, hexes):
         self.vertices = vertices
         self.hexes = hexes
+        self.roads = []
+        self.roadMatrix = []
+        for i in range(0, 54):
+            self.roadMatrix.append([])
+        '''
+        self.hexRelationMatrix = [
+            [0, 3, 4, 7, 8, 12],
+            [1, 4, 5, 8, 9, 13],
+            [2, 5, 6, 9, 10, 14],
+            [7, 11, 12, 16, 17, 22],
+            [8, 12, 13, 17, 18, 23],
+            [9, 13, 14, 18, 19, 24],
+            [10, 14, 15, 19, 20, 25],
+            [16, 21, 22, 27, 28, 33],
+            [17, 22, 23, 28, 29, 34],
+            [18, 23, 24, 29, 30, 35],
+            [19, 24, 25, 30, 31, 36],
+            [20, 25, 26, 31, 32, 37],
+            [28, 33, 34, 38, 39, 43],
+            [29, 34, 35, 39, 40, 44],
+            [30, 35, 36, 40, 41, 45],
+            [31, 36, 37, 41, 42, 46],
+            [39, 43, 44, 47, 48, 51],
+            [40, 44, 45, 48, 49, 52],
+            [41, 45, 46, 49, 50, 53]
+        ]
+        '''
 
     def formatHex(self,resource):
         extra_space = 0             # Counts extra space if word has an odd length.
