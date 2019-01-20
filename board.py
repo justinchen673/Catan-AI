@@ -5,11 +5,11 @@ class Vertex:
     number vertices, so we don't code them in here.
     '''
 
-    # Default constructor: All vertices start out the same
     def __init__(self):
         self.empty = True
         self.playerName = ''
         self.city = False
+
 
 class Hex:
     '''
@@ -17,27 +17,30 @@ class Hex:
     position in the hexes array.
     '''
 
-    # Pass in the resource type and number upon creation. Robber will always
-    # start on the sand hex.
     def __init__(self, resourceType, number):
         self.resourceType = resourceType
         self.number = number
+        # Robber always starts on the sand hex.
         if (resourceType == "sand"):
             self.robber = True
         else:
             self.robber = False
 
-    # Prints the resource type and the number. This should ONLY be used for
-    # debugging purposes.
+
     def debugPrint(self):
+        '''
+        This should ONLY be used for degbugging purposes. This prints a non
+        formatted display of the resource type and number on this hex.
+        '''
+
         print(self.resourceType, self.number)
+
 
 class Board:
     '''
     This is an object of the entire board.
     '''
 
-    # Pass in the list of vertices and hexes.
     def __init__(self, vertices, hexes):
         # List of vertices
         self.vertices = vertices
@@ -132,6 +135,12 @@ class Board:
 
 
     def canPlaceSettlement(self, vertex, playerName, firstPlacement):
+        '''
+        Determines if a settlement can be placed at the vertex given the user.
+        The boolean value firstPlacement determines whether this is the first
+        placement, meaning that the game is in the setup phase.
+        '''
+
         # Out of bounds vertex
         if (vertex < 0 or vertex > 53):
             return False
@@ -150,16 +159,72 @@ class Board:
             for i in self.vertexRelationMatrix[vertex]:
                 if (vertex, i) in self.roads and self.roads[(vertex, i)] == playerName:
                     return True
-                if (i, vertex) in self.roads and self.roads[(i, vertex)] == playerName:
-                    return True
             return False
 
         return True
 
 
+    def placeSettlement(self, vertex, playerName):
+        '''
+        Adds a settlement to the board given the vertex and the player's name
+        '''
+
+        self.vertices[vertex].empty = False
+        self.vertices[vertex].playerName = playerName
+
+
+    def canPlaceRoad(self, vertex1, vertex2, playerName):
+        '''
+        Determines if a road can be placed between the two vertices given the
+        user.
+        '''
+
+        # Checks if the vertices are next to each other
+        if not vertex2 in self.vertexRelationMatrix[vertex1]:
+            return False
+
+        # Checks if there is already a road there
+        if (vertex1, vertex2) in self.roads:
+            return False
+
+        # Checks if there is a settlement of the same playerName at either
+        # vertex
+        if (not self.vertices[vertex1].empty) and (self.vertices[vertex1].playerName == playerName):
+            return True
+        if (not self.vertices[vertex2].empty) and (self.vertices[vertex2].playerName == playerName):
+            return True
+
+        # Checks if this connects a road already placed
+        for i in self.vertexRelationMatrix[vertex1]:
+            if (vertex1, i) in self.roads and self.roads[(vertex1, i)] == playerName:
+                return True
+        for i in self.vertexRelationMatrix[vertex2]:
+            if (vertex2, i) in self.roads and self.roads[(vertex2, i)] == playerName:
+                return True
+
+
+        return False
+
+
+    def placeRoad(self, vertex1, vertex2, playerName):
+        '''
+        Adds a road to the board given the 2 vertices it is between and the
+        player's name
+        '''
+
+        self.roads[(vertex1, vertex2)] = playerName
+        self.roads[(vertex2, vertex1)] = playerName
+
+
     def formatHex(self,resource):
-        extra_space = 0             # Counts extra space if word has an odd length.
-        spaces = 18 - len(str(resource)) # 18 total spaces between lines in hex
+        '''
+        Helper function for formatting when printing.
+        '''
+
+        # Counts extra space if word has an odd length.
+        extra_space = 0
+        # 18 total spaces between lines in hex
+        spaces = 18 - len(str(resource))
         left_space = int(spaces/2)
         right_space = int(spaces/2)
         if spaces%2 == 1:
@@ -167,14 +232,21 @@ class Board:
         return_val = left_space*" " + str(resource) + right_space*" " + extra_space*" "
         return return_val
 
+
     def printBoard(self):
+        '''
+        Prints the board
+        '''
+
+        # Resource list contains all formatted strings of resourceTypes.
         resource_list = []
+        # Number list contains all formatted strings of numbers.
         number_list = []
         for i in self.hexes:
             temp_str = self.formatHex(i.resourceType)
-            resource_list.append(temp_str)              # Resource list contains all formatted strings of resourceTypes.
+            resource_list.append(temp_str)
             temp_str2 = self.formatHex(i.number)
-            number_list.append(temp_str2)               # Number list contains all formatted strings of numbers.
+            number_list.append(temp_str2)
 
         print("                              00                  01                  02")
         print("                            //  \\\\              //  \\\\              //  \\\\")
