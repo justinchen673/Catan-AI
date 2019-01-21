@@ -25,6 +25,33 @@ def getPlayerFromName(playerList, playerName):
     return None
 
 
+def moveRobber(board, mover):
+    '''
+    Allows the player to move the robber to any hex they want. Mover represents
+    the player who gets to move the robber.
+    '''
+
+    # Find out where the robber currently is
+    currentHex = 0
+    for i in range(0, 19):
+        if (board.hexes[i].robber):
+            currentHex = i
+            board.hexes[i].robber = False
+            break
+
+    # Take input for the new location
+    notPlaced = True
+    while (notPlaced):
+        newHex = int(input("Player " + mover.name + ", which hex would you like to move the robber to? Select a number 0 - 18, starting from the top left hex and moving right. "))
+        if (newHex == currentHex):
+            print("The robber is already there. Select a different hex.")
+        elif (newHex < 0 or newHex > 18):
+            print("Please enter a hex between 0 and 18.")
+        else:
+            board.hexes[newHex].robber = True
+            notPlaced = False
+
+
 def handOutResources(board, playerList, roll):
     '''
     Based on the dice roll, hands out all of the resources. 7 will NOT be an
@@ -45,10 +72,6 @@ def handOutResources(board, playerList, roll):
                         getPlayerFromName(playerList, board.vertices[j].playerName).resourceDict[currentHex.resourceType] += 1
 
 
-
-
-
-
 if __name__ == '__main__':
     playerList = initializePlayers()
     board = createBoard()
@@ -61,11 +84,25 @@ if __name__ == '__main__':
     currentPlayer = 0
     while(not playerList[currentPlayer].victorious()):
         board.printBoard()
+
+        # Roll the dice and resolve consequences of the dice roll
         roll = diceRoll()
-        handOutResources(board, playerList, roll)
         print()
-        print(roll)
-        for i in playerList:
-            print(i.name)
-            print(i.resourceDict)
+        print("A " + str(roll) + " was rolled.")
+        if (roll == 7):
+            # Player moves robber
+            moveRobber(board, playerList[currentPlayer])
+        else:
+            handOutResources(board, playerList, roll)
+
+        # Begin the action phase for the current player
+        
+
+        # Switch the current player
+        if (currentPlayer != len(playerList) - 1):
+            currentPlayer += 1
+        else:
+            currentPlayer = 0
+
+        # For debugging
         x = input("Press key to continue...")
