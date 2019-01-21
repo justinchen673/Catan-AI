@@ -1,79 +1,51 @@
-from random import shuffle
+import random
+from setup import *
 from player import Player
 from board import *
 
-# Creates all the players and returns the list they are all in.
-def initializePlayers():
-    numPlayers = int(input("How many people are playing? "))
-    if (numPlayers > 4 or numPlayers < 2):
-        print("There can only be 2-4 players.")
-        exit()
-    playerList = []
-    playerList.append(Player("A"))
-    playerList.append(Player("B"))
-    if (numPlayers >= 3):
-        playerList.append(Player("C"))
-    if (numPlayers >= 4):
-        playerList.append(Player("D"))
+def diceRoll():
+    '''
+    Simulates rolling a pair of dice that are numbered 1-6 each. Returns a
+    number 2-12 at varying frequencies.
+    '''
 
-    return playerList
+    die1 = random.randint(1, 6)
+    die2 = random.randint(1, 6)
+    return die1 + die2
 
 
+def getPlayerFromName(playerList, playerName):
+    '''
+    Simple function that returns the player (in the playerList) based on name.
+    '''
 
-# Creates the board, which is the same structure but has randomly generated
-# content within.
-def createBoard():
-    # A board is comprised of vertices and hexes. First we'll make the vertices.
-    vertices = []
-    for i in range(0, 54):
-        vertices.append(Vertex())
+    for i in playerList:
+        if i.name == playerName:
+            return i
+    return None
 
-    # Now create the hexes. First, shuffle the terrains.
-    terrains = ["wheat", "wheat", "wheat", "wheat", "wood", "wood", "wood", "wood", "sheep", "sheep", "sheep", "sheep", "ore", "ore", "ore", "brick", "brick", "brick", "sand"]
-    shuffle(terrains)
 
-    # These will be the numbers associated with the hexes. These will always be
-    # the same initial order.
-    numbers = [5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11]
+def handOutResources(board, playerList, roll):
+    '''
+    Based on the dice roll, hands out all of the resources. 7 will NOT be an
+    input, as that calls for the robber.
+    '''
 
-    # Assign each terrain a number. The desert will be 0.
-    hexesOrdered = []
-    sandAssigned = False
     for i in range(0, 19):
-        if (terrains[i] == "sand"):
-            sandAssigned = True
-            hexesOrdered.append(Hex(terrains[i], 0))
-        else:
-            if (sandAssigned):
-                hexesOrdered.append(Hex(terrains[i], numbers[i-1]))
-            else:
-                hexesOrdered.append(Hex(terrains[i], numbers[i]))
+        currentHex = board.hexes[i]
+        # If the roll is the number on the board and there's no robber there
+        if (roll == currentHex.number and currentHex.robber == False):
+            for j in board.hexRelationMatrix[i]:
+                # j is the vertex number that can get resources
+                if board.vertices[j].empty == False:
+                    # That player gets a resource
+                    if (board.vertices[j].city):
+                        getPlayerFromName(playerList, board.vertices[j].playerName).resourceDict[currentHex.resourceType] += 2
+                    else:
+                        getPlayerFromName(playerList, board.vertices[j].playerName).resourceDict[currentHex.resourceType] += 1
 
-    # The catan numbers spiral around the board, so we'll have to hardcode that
-    # spiral format into it.
-    # TODO: Make the first hex not necessarily start at the upper left corner
-    hexes = []
-    hexes.append(hexesOrdered[0])
-    hexes.append(hexesOrdered[1])
-    hexes.append(hexesOrdered[2])
-    hexes.append(hexesOrdered[11])
-    hexes.append(hexesOrdered[12])
-    hexes.append(hexesOrdered[13])
-    hexes.append(hexesOrdered[3])
-    hexes.append(hexesOrdered[10])
-    hexes.append(hexesOrdered[17])
-    hexes.append(hexesOrdered[18])
-    hexes.append(hexesOrdered[14])
-    hexes.append(hexesOrdered[4])
-    hexes.append(hexesOrdered[9])
-    hexes.append(hexesOrdered[16])
-    hexes.append(hexesOrdered[15])
-    hexes.append(hexesOrdered[5])
-    hexes.append(hexesOrdered[8])
-    hexes.append(hexesOrdered[7])
-    hexes.append(hexesOrdered[6])
 
-    return Board(vertices, hexes)
+
 
 
 
@@ -81,3 +53,19 @@ if __name__ == '__main__':
     playerList = initializePlayers()
     board = createBoard()
     board.printBoard()
+
+    # Setup Phase
+    placeFirstSettlements(board, playerList)
+
+    # Game Phase
+    currentPlayer = 0
+    while(not playerList[currentPlayer].victorious()):
+        board.printBoard()
+        roll = diceRoll()
+        handOutResources(board, playerList, roll)
+        print()
+        print(roll)
+        for i in playerList:
+            print(i.name)
+            print(i.resourceDict)
+        x = input("Press key to continue...")

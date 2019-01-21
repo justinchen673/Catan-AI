@@ -20,3 +20,24 @@ class Player:
         self.activeKnights = 0
         self.largestArmy = False
         self.longestRoad = False
+
+    def victorious(self):
+        '''
+        Checks if this player has won the game by summing up all of their
+        victory points and checking if it has reached 10. Returns true if they
+        have won, false if they haven't.
+        '''
+
+        totalPoints = 0
+        totalPoints += len(self.settlementList)
+        totalPoints += (len(self.citiesList) * 2)
+        if (self.largestArmy):
+            totalPoints += 2
+        if (self.longestRoad):
+            totalPoints += 2
+        for i in self.devCards:
+            if i == "Victory Point":
+                totalPoints += 1
+        if (totalPoints >= 10):
+            return True
+        return False

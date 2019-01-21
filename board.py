@@ -1,3 +1,11 @@
+"""
+board.py 
+
+This file holds the representation of the board as well as any functions it may
+need. It is comprised of the Vertex and Hex classes, which together along some
+other structures makes up the Board class.
+"""
+
 class Vertex:
     '''
     This represents a single vertex on the board. Its number is designated by
