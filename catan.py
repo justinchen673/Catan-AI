@@ -96,7 +96,9 @@ if __name__ == '__main__':
             handOutResources(board, playerList, roll)
 
         # Begin the action phase for the current player
-        
+        for i in playerList:
+            print("Player " + i.name)
+            print(i.resourceDict)
 
         # Switch the current player
         if (currentPlayer != len(playerList) - 1):

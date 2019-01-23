@@ -1,5 +1,5 @@
 """
-board.py 
+board.py
 
 This file holds the representation of the board as well as any functions it may
 need. It is comprised of the Vertex and Hex classes, which together along some
@@ -58,6 +58,78 @@ class Board:
 
         # Roads is a dictionary: Key is a tuple of the vertices, value is name
         self.roads = {
+            (0, 3): "//",
+            (0, 4): "\\\\",
+            (1, 4): "//",
+            (1, 5): "\\\\",
+            (2, 5): "//",
+            (2, 6): "\\\\",
+            (3, 7): "||",
+            (4, 8): "||",
+            (5, 9): "||",
+            (6, 10): "||",
+            (7, 11): "//",
+            (7, 12): "\\\\",
+            (8, 12): "//",
+            (8, 13): "\\\\",
+            (9, 13): "//",
+            (9, 14): "\\\\",
+            (10, 14): "//",
+            (10, 15): "\\\\",
+            (11, 16): "||",
+            (12, 17): "||",
+            (13, 18): "||",
+            (14, 19): "||",
+            (15, 20): "||",
+            (16, 21): "//",
+            (16, 22): "\\\\",
+            (17, 22): "//",
+            (17, 23): "\\\\",
+            (18, 23): "//",
+            (18, 24): "\\\\",
+            (19, 24): "//",
+            (19, 25): "\\\\",
+            (20, 25): "//",
+            (20, 26): "\\\\",
+            (21, 27): "||",
+            (22, 28): "||",
+            (23, 29): "||",
+            (24, 30): "||",
+            (25, 31): "||",
+            (26, 32): "||",
+            (27, 33): "\\\\",
+            (28, 33): "//",
+            (28, 34): "\\\\",
+            (29, 34): "//",
+            (29, 35): "\\\\",
+            (30, 35): "//",
+            (30, 36): "\\\\",
+            (31, 36): "//",
+            (31, 37): "\\\\",
+            (32, 37): "//",
+            (33, 38): "||",
+            (34, 39): "||",
+            (35, 40): "||",
+            (36, 41): "||",
+            (37, 42): "||",
+            (38, 43): "\\\\",
+            (39, 43): "//",
+            (39, 44): "\\\\",
+            (40, 44): "//",
+            (40, 45): "\\\\",
+            (41, 45): "//",
+            (41, 46): "\\\\",
+            (42, 46): "//",
+            (43, 47): "||",
+            (44, 48): "||",
+            (45, 49): "||",
+            (46, 50): "||",
+            (47, 51): "\\\\",
+            (48, 51): "//",
+            (48, 52): "\\\\",
+            (49, 52): "//",
+            (49, 53): "\\\\",
+            (50, 53): "//"
         }
 
         # A matrix that tells what vertices each hex is linked to
@@ -165,8 +237,12 @@ class Board:
         # Checks if it's connected to a road if it isn't the first placement
         if not firstPlacement:
             for i in self.vertexRelationMatrix[vertex]:
-                if (vertex, i) in self.roads and self.roads[(vertex, i)] == playerName:
-                    return True
+                if (i > vertex):
+                    if self.roads[(vertex, i)] == playerName + playerName:
+                        return True
+                else:
+                    if self.roads[(i, vertex)] == playerName + playerName:
+                        return True
             return False
 
         return True
@@ -192,8 +268,9 @@ class Board:
             return False
 
         # Checks if there is already a road there
-        if (vertex1, vertex2) in self.roads:
-            return False
+        if (vertex1 < vertex2):
+            if self.roads[(vertex1, vertex2)] == "AA" or self.roads[(vertex1, vertex2)] == "BB" or self.roads[(vertex1, vertex2)] == "CC" or self.roads[(vertex1, vertex2)] == "DD":
+                return False
 
         # Checks if there is a settlement of the same playerName at either
         # vertex
@@ -204,12 +281,19 @@ class Board:
 
         # Checks if this connects a road already placed
         for i in self.vertexRelationMatrix[vertex1]:
-            if (vertex1, i) in self.roads and self.roads[(vertex1, i)] == playerName:
-                return True
+            if (vertex1 < i):
+                if self.roads[(vertex1, i)] == playerName + playerName:
+                    return True
+            else:
+                if self.roads[(i, vertex1)] == playerName + playerName:
+                    return True
         for i in self.vertexRelationMatrix[vertex2]:
-            if (vertex2, i) in self.roads and self.roads[(vertex2, i)] == playerName:
-                return True
-
+            if (vertex2 < i):
+                if self.roads[(vertex2, i)] == playerName + playerName:
+                    return True
+            else:
+                if self.roads[(i, vertex2)] == playerName + playerName:
+                    return True
 
         return False
 
@@ -220,8 +304,10 @@ class Board:
         player's name
         '''
 
-        self.roads[(vertex1, vertex2)] = playerName
-        self.roads[(vertex2, vertex1)] = playerName
+        if (vertex1 < vertex2):
+            self.roads[(vertex1, vertex2)] = playerName + playerName
+        else:
+            self.roads[(vertex2, vertex1)] = playerName + playerName
 
 
     def formatHex(self,resource):
