@@ -18,7 +18,11 @@ def initializePlayers():
     '''
     Creates all the players and returns the list they are all in.
     '''
-    numPlayers = int(input("How many people are playing? "))
+    players = input("How many people are playing? ")
+    if(not players.isdigit()):
+        print("Please enter a valid number.")
+        exit()
+    numPlayers = int(players)
     if (numPlayers > 4 or numPlayers < 2):
         print("There can only be 2-4 players.")
         exit()
