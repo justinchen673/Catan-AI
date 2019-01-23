@@ -327,6 +327,24 @@ class Board:
         return return_val
 
 
+    def formatVertex(self, index):
+        '''
+        Helper function for formatting when printing vertices.
+        '''
+
+        if (self.vertices[index].empty):
+            # Returns the formatted number
+            returnStr = str(index)
+            if (len(returnStr) == 1):
+                returnStr = '0' + returnStr
+            return returnStr
+        else:
+            # Returns the formatted settlement / city
+            if (self.vertices[index].city):
+                return self.vertices[index].playerName + "C"
+            else:
+                return self.vertices[index].playerName + "S"
+
     def printBoard(self):
         '''
         Prints the board
@@ -342,7 +360,7 @@ class Board:
             temp_str2 = self.formatHex(i.number)
             number_list.append(temp_str2)
 
-        print("                              00                  01                  02")
+        print("                              "+self.formatVertex(0)+"                  01                  02")
         print("                            "+self.roads[(0,3)]+"  "+self.roads[(0,4)]+"              "+self.roads[(1,4)]+"  "+self.roads[(1,5)]+"              "+self.roads[(2,5)]+"  "+self.roads[(2,6)]+"")
         print("                          "+self.roads[(0,3)]+"      "+self.roads[(0,4)]+"          "+self.roads[(1,4)]+"      "+self.roads[(1,5)]+"          "+self.roads[(2,5)]+"      "+self.roads[(2,6)]+"")
         print("                        "+self.roads[(0,3)]+"          "+self.roads[(0,4)]+"      "+self.roads[(1,4)]+"          "+self.roads[(1,5)]+"      "+self.roads[(2,5)]+"          "+self.roads[(2,6)]+"")
