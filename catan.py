@@ -156,6 +156,56 @@ def bankTrade(player):
         player.printHand()
 
 
+def playerTrade(player1, player2):
+    '''
+    Allows two players to trade with each other. player1 will be the player
+    whose turn it currently is.
+    '''
+
+    # Get the resource and number to be traded from the first player
+    print("\tPlayer " + player1.name + ", what resource are you trading in? Type in the full resource name.")
+    resource1 = input("\t")
+    if not resource1 in player1.resourceDict:
+        print("\tInvalid resource.")
+        return
+
+    print("\tHow many " + resource1 + " are you trading?")
+    quantity1 = input("\t")
+    if (not quantity1.isdigit()):
+        print("\tInvalid number.")
+        return
+    quantity1 = int(quantity1)
+    if (quantity1 > player1.resourceDict[resource1] or quantity1 < 1):
+        print("\tYou don't have enough " + resource1 + ".")
+        return
+
+    # Get the resource and number to be traded from the second player
+    print("\tPlayer " + player2.name + ", what resource are you trading in? Type in the full resource name.")
+    resource2 = input("\t")
+    if not resource2 in player2.resourceDict:
+        print("\tInvalid resource.")
+        return
+
+    print("\tHow many " + resource2 + " are you trading?")
+    quantity2 = input("\t")
+    if (not quantity2.isdigit()):
+        print("\tInvalid number.")
+        return
+    quantity2 = int(quantity2)
+    if (quantity2 > player2.resourceDict[resource2] or quantity2 < 1):
+        print("\tYou don't have enough " + resource2 + ".")
+        return
+
+    # If it reaches this point, the trade has no barriers and can go through
+    player1.resourceDict[resource1] -= quantity1
+    player1.resourceDict[resource2] += quantity2
+    player2.resourceDict[resource1] += quantity1
+    player2.resourceDict[resource2] -= quantity2
+    print("\tTrade successful!")
+    print()
+    player1.printHand()
+
+
 if __name__ == '__main__':
     playerList = initializePlayers()
     board = createBoard()
@@ -199,7 +249,14 @@ if __name__ == '__main__':
                 if (trader == currentPlayer.name):
                     print("\tYou can't trade with yourself.")
                 elif (trader == "Bank"):
+                    # Trade with the bank
                     bankTrade(currentPlayer)
+                elif (getPlayerFromName(playerList, trader) != None):
+                    # Trade with another player
+                    playerTrade(currentPlayer, getPlayerFromName(playerList, trader))
+                else:
+                    print("\tInvalid command.")
+
             elif (command == "-e"):
                 notDone = False
             else:
