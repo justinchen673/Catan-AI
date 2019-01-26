@@ -50,6 +50,7 @@ def moveRobber(board, mover):
         else:
             board.hexes[newHex].robber = True
             notPlaced = False
+    board.printBoard()
 
 
 def handOutResources(board, playerList, roll):
@@ -72,17 +73,102 @@ def handOutResources(board, playerList, roll):
                         getPlayerFromName(playerList, board.vertices[j].playerName).resourceDict[currentHex.resourceType] += 1
 
 
+def printHelp():
+    '''
+    Outputs a list of commands that a user can call during their turn.
+    '''
+
+    print("\t-t is for trading, either with a player or with the bank.")
+    print("\t-b is for building.")
+    print("\t-d is for using a development card.")
+    print("\t-e is for ending your turn.")
+
+
+def bankTrade(player):
+    '''
+    Allows a user to trade with the bank. The player can always do a 4-1
+    exchange, but depending on their ports they may be able to do 3-1 or 2-1
+    trades as well.
+    '''
+
+    print("\tHere are all possible trades you can do with the bank:")
+
+    wheatReq = 4
+    sheepReq = 4
+    brickReq = 4
+    oreReq = 4
+    woodReq = 4
+    # NEED TO IMPLEMENT PORTS: WILL STILL KEEP FORMAT THOUGH
+    print("\t" + str(wheatReq) + " wheat -> 1 ?")
+    print("\t" + str(sheepReq) + " sheep -> 1 ?")
+    print("\t" + str(brickReq) + " brick -> 1 ?")
+    print("\t" + str(oreReq) + " ore   -> 1 ?")
+    print("\t" + str(woodReq) + " wood  -> 1 ?")
+
+    # Get the resource to be traded in
+    print("\tWhat resource are you trading in? Type in the full resource name.")
+    tradeIn = input("\t")
+    tradeQuantity = 0
+    if (tradeIn == "wheat"):
+        if player.resourceDict["wheat"] < wheatReq:
+            print("\tYou don't have enough wheat.")
+            return
+        else:
+            tradeQuantity = wheatReq
+    elif (tradeIn == "sheep"):
+        if player.resourceDict["sheep"] < sheepReq:
+            print("\tYou don't have enough sheep.")
+            return
+        else:
+            tradeQuantity = sheepReq
+    elif (tradeIn == "brick"):
+        if player.resourceDict["brick"] < brickReq:
+            print("\tYou don't have enough brick.")
+            return
+        else:
+            tradeQuantity = brickReq
+    elif (tradeIn == "ore"):
+        if player.resourceDict["ore"] < oreReq:
+            print("\tYou don't have enough ore.")
+            return
+        else:
+            tradeQuantity = oreReq
+    elif (tradeIn == "wood"):
+        if player.resourceDict["wood"] < woodReq:
+            print("\tYou don't have enough wood.")
+            return
+        else:
+            tradeQuantity = woodReq
+    else:
+        print("\tInvalid resource.")
+        return
+
+    print("\tWhat resource are you trading " + tradeIn + " for?")
+    tradeFor = input("\t")
+    if not tradeFor in player.resourceDict:
+        print("\tInvalid resource.")
+    else:
+        # The actual trade itelf
+        player.resourceDict[tradeIn] -= tradeQuantity
+        player.resourceDict[tradeFor] += 1
+        print("\tTrade successful!")
+        print()
+        player.printHand()
+
+
 if __name__ == '__main__':
     playerList = initializePlayers()
     board = createBoard()
-    board.printBoard()
 
     # Setup Phase
     placeFirstSettlements(board, playerList)
 
     # Game Phase
-    currentPlayer = 0
-    while(not playerList[currentPlayer].victorious()):
+    currentPlayerIndex = 0
+    while(not playerList[currentPlayerIndex].victorious()):
+
+        currentPlayer = playerList[currentPlayerIndex]
+
         board.printBoard()
 
         # Roll the dice and resolve consequences of the dice roll
@@ -91,20 +177,37 @@ if __name__ == '__main__':
         print("A " + str(roll) + " was rolled.")
         if (roll == 7):
             # Player moves robber
-            moveRobber(board, playerList[currentPlayer])
+            moveRobber(board, currentPlayer)
         else:
             handOutResources(board, playerList, roll)
 
         # Begin the action phase for the current player
-        for i in playerList:
-            print("Player " + i.name)
-            print(i.resourceDict)
+        print("Player " + currentPlayer.name + ":")
+        currentPlayer.printHand()
+        # Allow commands
+        notDone = True
+        while(notDone):
+            print()
+            print("What would you like to do? Type a command, or -h for a list of commands.")
+            command = input()
+            if (command == "-h"):
+                printHelp()
+            elif (command == "-t"):
+                print("\tWho would you like to trade with? Enter the player's name or type \"bank\" if you would like to trade with the bank.")
+                trader = input("\t")
+                trader = trader.capitalize()
+                if (trader == currentPlayer.name):
+                    print("\tYou can't trade with yourself.")
+                elif (trader == "Bank"):
+                    bankTrade(currentPlayer)
+            elif (command == "-e"):
+                notDone = False
+            else:
+                print("Invalid command.")
+
 
         # Switch the current player
-        if (currentPlayer != len(playerList) - 1):
-            currentPlayer += 1
+        if (currentPlayerIndex != len(playerList) - 1):
+            currentPlayerIndex += 1
         else:
-            currentPlayer = 0
-
-        # For debugging
-        x = input("Press key to continue...")
+            currentPlayerIndex = 0

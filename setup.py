@@ -104,6 +104,9 @@ def placeFirstSettlements(board, playerList):
         playerList.pop(0)
 
     for i in playerList:
+
+        board.printBoard()
+
         # Get settlement
         firstVertex = 0
         notPlaced = True
@@ -132,12 +135,14 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        board.printBoard()
 
     # To find out what initial resouces to the players should receive
     secondSettlements = []
 
     for i in range(len(playerList)-1, -1, -1):
+
+        board.printBoard()
+        
         # Get settlement
         firstVertex = 0
         notPlaced = True
@@ -167,7 +172,6 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        board.printBoard()
 
     # Hand out first resource
     for i in range(0, 19):

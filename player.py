@@ -13,13 +13,35 @@ class Player:
             "wood": 0
         }
         self.totalResources = 0
-        self.devCards = []
+        self.devCardDict = {
+            "Knight": 0,
+            "Year of Plenty": 0,
+            "Monopoly": 0,
+            "Victory Point": 0,
+            "Road Building": 0
+        }
         self.settlementList = []
         self.citiesList = []
         self.roadsList = []
         self.activeKnights = 0
         self.largestArmy = False
         self.longestRoad = False
+        
+
+    def printHand(self):
+        '''
+        Prints out what the player has in their hand at the moment. This happens
+        at the start of each turn.
+        '''
+
+        print("Current Hand:")
+        print("\tResources:")
+        print("\t\tWheat: " + str(self.resourceDict["wheat"]) + "\tSheep: " + str(self.resourceDict["sheep"]) + "\tBrick: " + str(self.resourceDict["brick"]))
+        print("\t\tOre: " + str(self.resourceDict["ore"]) + "\t\tWood: " + str(self.resourceDict["wood"]))
+        print("\tDevelopment Cards:")
+        print("\t\tKnights: " + str(self.devCardDict["Knight"]) + "\tMonopoly: " + str(self.devCardDict["Monopoly"]) + "\tYear of Plenty: " + str(self.devCardDict["Year of Plenty"]))
+        print("\t\tVictory Points: " + str(self.devCardDict["Victory Point"]) + "\t\tRoad Building: " + str(self.devCardDict["Road Building"]))
+
 
     def victorious(self):
         '''
@@ -35,9 +57,7 @@ class Player:
             totalPoints += 2
         if (self.longestRoad):
             totalPoints += 2
-        for i in self.devCards:
-            if i == "Victory Point":
-                totalPoints += 1
+        totalPoints += self.devCardDict["Victory Point"]
         if (totalPoints >= 10):
             return True
         return False
