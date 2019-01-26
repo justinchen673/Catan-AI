@@ -118,8 +118,7 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        # UNCOMMENT ONCE PRINTBOARD SUPPORTS SETTLEMENTS AND ROADS
-        #board.printBoard()
+        board.printBoard()
 
         # Get road
         notPlaced = True
@@ -133,8 +132,7 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        # UNCOMMENT ONCE PRINTBOARD SUPPORTS SETTLEMENTS AND ROADS
-        #board.printBoard()
+        board.printBoard()
 
     # To find out what initial resouces to the players should receive
     secondSettlements = []
@@ -155,8 +153,7 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        # UNCOMMENT ONCE PRINTBOARD SUPPORTS SETTLEMENTS AND ROADS
-        #board.printBoard()
+        board.printBoard()
 
         # Get road
         notPlaced = True
@@ -170,8 +167,7 @@ def placeFirstSettlements(board, playerList):
                 # Non legal placement
                 print("Please enter a valid vertex.")
 
-        # UNCOMMENT ONCE PRINTBOARD SUPPORTS SETTLEMENTS AND ROADS
-        #board.printBoard()
+        board.printBoard()
 
     # Hand out first resource
     for i in range(0, 19):
