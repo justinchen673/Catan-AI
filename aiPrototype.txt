@@ -1,0 +1,106 @@
+Much of the basic calculation comes from:
+	https://www.boardgameanalysis.com/the-102-ways-to-win-at-catan-part-i/
+	https://www.boardgameanalysis.com/the-143-ways-to-win-at-catan-part-ii/
+	https://www.boardgameanalysis.com/the-143-ways-to-win-at-catan-part-iii/
+
+	In short these posts break down the probabilities of winning using all the possible
+	startegies/ combinations of points, calculating the cost of those points and then the 
+	probabilities of getting those neccesary points of average.
+
+	Essentially the most straightforward AI we could make would re calculate the 
+	probabilities each turn using the settlements it is near and thenusing those 
+	probabilities calculate the method with the highest chance of winning for it. 
+
+
+
+AI :
+
+	There are a 114 different combinations of points that can be used to win the game
+
+	Each of them have diffentent costs associated with the (i.e. the raw number of 
+	development cards needed to get those points)
+		For example- Say you win with Largest Army, Longest Road and 3 cities. In the best
+		case scenario that means that you only needed to draw 34 cards
+			3 Knights = 3 Sheep, 3 Ore, 3 Wheat
+			3 Road = 3 Wood, 3 Brick
+				> This is assuming that you connect the two original settlements and their
+				  roads to win 
+			1 Settlement = 1 Wood, 1 Wheat, 1 Sheep, 1 Brick
+			3 Cities = 6 Wheat, 9 Ore
+				Total = 4 Sheep, 12 Ore, 10 Wheat, 4 Brick, 4 Wood
+
+	We should probably preload these wins and the cards they need in order to speed up the
+	calculations
+
+	After picking the best method to win, organize the order of getting each based on 
+	dependencies and cards that are easier to get (Top sort or something similar)
+
+
+
+	Start, Placing Settlements:
+		Using the winning combinations, look that the probabilities for each of the 
+		placements (and the resources around them) for getting the cards you need to win the 
+		fastest. 
+
+			For the easy mode just look at simple probabilities of each resource at each 
+			spot and total the raw number of cards/ rolls needed to win
+
+			For the hard mode perform a more complex analysis of what will happen through 
+			the moves- ex. when you build a city, you will start picking up two of each 
+			resource rather than one which increase the frequency of that resource. Also 
+			factor in ports and how that help trading and access to resources.
+
+
+
+	Middle, Your Turn:
+		Two modes-
+			Easy- Only calculates deals with the best strategies and winning methods for 
+			itself, and plays accordingly
+				Will trade generally, not asking specific playes for specific things
+				Will not keep track of how close others are to winning, and try to stop them
+				Will not keep track of how a trade might benefit another player, just if it
+				would be beneficial to them
+				Will place the robber unbiasedly at the most likely/ most populated
+				intersection
+
+			Hard- Calculates probabilities/ best method for winning not only for itself but
+			also for all other players
+				Will trade specifically with other players, choosing to trade with the 
+				loosing player, or propose a trade to a player that will hurt their chances
+				of winning
+				Will not trade with a player if that makes them signficantly closer to 
+				winning
+				Will keep track of all the cards the players have picked up in the past
+				three (subject to change, we can pick any number of turn we think is good)
+				turns to  calculate probabilities
+				Will place the robber to try to hurt the player currently in the lead
+
+				Essentially it will actively fight the others to try to hurt their chances
+				of winning
+
+
+
+	Middle, Other Players Turns:
+		Recalculate probabilities based on every resource card revealed/ picked from the deck
+
+		If trades are offered recalculate probabilities if that path is taken
+			> In the hard mode recalculate probabilities for the other player as well as for
+			yourself, in the easy mode just you
+
+
+
+	Ending:
+		Hard- If other players are close to winning, abandon the highest porability for your 
+		win strategies in place of strategies that will garentee the quickest win, even if 
+		they are more risky
+
+
+Other sites for more info/ that are intersting:
+
+	Blog post from the person who helped make the official catan AI:
+		https://www.catan.com/news/2009-06-22/how-good-should-artificial-intelligence-electronic-catan-game-be
+	Has some intersting info on where/how to place the robber:
+		https://divisbyzero.com/2010/01/06/playing-the-probabilities-in-settlers-of-catan/
+	Paper that explains resource distribution and overall value:
+		https://developingcatan.files.wordpress.com/2011/02/settlers-of-catan-analysis.pdf
+
