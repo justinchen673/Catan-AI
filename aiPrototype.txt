@@ -1,3 +1,7 @@
+*************************************************************************************
+Baisics
+*************************************************************************************
+
 Much of the basic calculation comes from:
 	https://www.boardgameanalysis.com/the-102-ways-to-win-at-catan-part-i/
 	https://www.boardgameanalysis.com/the-143-ways-to-win-at-catan-part-ii/
@@ -12,8 +16,11 @@ Much of the basic calculation comes from:
 	probabilities calculate the method with the highest chance of winning for it. 
 
 
+*************************************************************************************
+AI Model:
+*************************************************************************************
 
-AI :
+Overview:	
 
 	There are a 114 different combinations of points that can be used to win the game
 
@@ -79,6 +86,19 @@ AI :
 				of winning
 
 
+			1) Check to make sure the strategy being used currently is still the best one
+			   for victory
+			2) Given a strategy, try to accomplish the tasks based on the cards you have 
+			   and the dependencies for the other steps
+			3)If you can't accomplish any of the tasks woth your cards propose trades to get 
+			  to where you want to be
+			4)Based on the number of cards you have and the probability of gaining more over
+			  the 7 that are allowed and taking into account the probability of rolling a 
+			  seven, decide whether to 'waste' cards by doing something that isn't 
+			  neccesarily a part of your strategy, for example buy a unintended dev card or 
+			  build an extra road
+
+
 
 	Middle, Other Players Turns:
 		Recalculate probabilities based on every resource card revealed/ picked from the deck
@@ -93,6 +113,11 @@ AI :
 		Hard- If other players are close to winning, abandon the highest porability for your 
 		win strategies in place of strategies that will garentee the quickest win, even if 
 		they are more risky
+
+
+******************************************************************************************
+EXTRA
+*****************************************************************************************
 
 
 Other sites for more info/ that are intersting:
