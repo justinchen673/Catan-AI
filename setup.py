@@ -37,6 +37,17 @@ def initializePlayers():
     return playerList
 
 
+def initializeDevCards():
+    '''
+    Creates the deck of the development cards. There starts out with 25
+    development cards, and cards will never re-enter the deck.
+    '''
+
+    devCards = ["Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Year of Plenty", "Year of Plenty", "Monopoly", "Monopoly", "Road Building", "Road Building", "Victory Point", "Victory Point", "Victory Point", "Victory Point", "Victory Point"]
+    shuffle(devCards)
+    return devCards
+
+
 def createBoard():
     '''
     Creates the board, which is the same structure but has randomly generated
@@ -142,7 +153,7 @@ def placeFirstSettlements(board, playerList):
     for i in range(len(playerList)-1, -1, -1):
 
         board.printBoard()
-        
+
         # Get settlement
         firstVertex = 0
         notPlaced = True

@@ -245,6 +245,8 @@ def buildCity(board, player):
         return
 
     board.vertices[settlementVertices[settlementNum]].city = True
+    player.resourceDict["wheat"] -= 2
+    player.resourceDict["ore"] -= 3
     board.printBoard()
 
 
@@ -273,6 +275,11 @@ def buildSettlement(board, player):
     if (board.canPlaceSettlement(vertex, player.name, False)):
         board.placeSettlement(vertex, player.name)
         board.printBoard()
+
+        player.resourceDict["wheat"] -= 1
+        player.resourceDict["wood"] -= 1
+        player.resourceDict["sheep"] -= 1
+        player.resourceDict["brick"] -= 1
     else:
         print("\tIllegal settlement placement.")
 
@@ -309,12 +316,40 @@ def buildRoad(board, player):
     if (board.canPlaceRoad(vertex1, vertex2, player.name)):
         board.placeRoad(vertex1, vertex2, player.name)
         board.printBoard()
+
+        player.resourceDict["wood"] -= 1
+        player.resourceDict["brick"] -= 1
     else:
         print("\tIllegal road placement.")
 
 
+def buildDevCard(player, devCardDeck):
+    '''
+    Gives the player a development card off of the deck.
+    '''
+
+    # Checks if the player has the resources needed to build a road
+    if (player.resourceDict["ore"] < 1 or player.resourceDict["sheep"] < 1 or player.resourceDict["wheat"] < 1):
+        print("\tYou don't have the necessary resources to get a development card.")
+        return
+
+    # Ensures there are still development cards
+    if (len(devCardDeck) == 0):
+        print("\tNo more development cards remain.")
+        return
+
+    player.devCardDict[devCardDeck.pop()] += 1
+    player.resourceDict["ore"] -= 1
+    player.resourceDict["sheep"] -= 1
+    player.resourceDict["wheat"] -= 1
+    print(devCardDeck)
+
+
+
 if __name__ == '__main__':
     playerList = initializePlayers()
+    devCardDeck = initializeDevCards()
+    print(len(devCardDeck))
     board = createBoard()
 
     # Setup Phase
@@ -372,7 +407,10 @@ if __name__ == '__main__':
                     buildSettlement(board, currentPlayer)
                 elif (toBuild == "-r"):
                     buildRoad(board, currentPlayer)
-                # ADD MORE HERE
+                elif (toBuild == "-d"):
+                    buildDevCard(currentPlayer, devCardDeck)
+                else:
+                    print("\tInvalid command.")
             elif (command == "-e"):
                 notDone = False
             else:
