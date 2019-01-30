@@ -42,7 +42,11 @@ def moveRobber(board, mover):
     # Take input for the new location
     notPlaced = True
     while (notPlaced):
-        newHex = int(input("Player " + mover.name + ", which hex would you like to move the robber to? Select a number 0 - 18, starting from the top left hex and moving right. "))
+        newHex = input("Player " + mover.name + ", which hex would you like to move the robber to? Select a number 0 - 18, starting from the top left hex and moving right. ")
+        if (not newHex.isdigit()):
+            print("Invalid number.")
+            continue
+        newHex = int(newHex)
         if (newHex == currentHex):
             print("The robber is already there. Select a different hex.")
         elif (newHex < 0 or newHex > 18):
@@ -206,6 +210,109 @@ def playerTrade(player1, player2):
     player1.printHand()
 
 
+def buildCity(board, player):
+    '''
+    Asks the player to build a city on top of one of their currently existing
+    settlements.
+    '''
+
+    # Checks if the player has the resources needed to build a city
+    if (player.resourceDict["wheat"] < 2 or player.resourceDict["ore"] < 3):
+        print("\tYou don't have the necessary resources to build a city.")
+        return
+
+    settlementVertices = []
+    for i in range(0, len(board.vertices)):
+        if (board.vertices[i].playerName == player.name and board.vertices[i].city == False):
+            # This means there is a settlement on vertex i
+            settlementVertices.append(i)
+
+    # Ensures there's a settlement to put the city on
+    if (len(settlementVertices) == 0):
+        print("\tYou have no settlements to put cities on.")
+        return
+
+    board.printBoard()
+    print()
+    print("\tWhich settlement would you like to place it on? Pick the settlement number, starting from top left (and starting from 0).")
+    settlementNum = input("\t")
+    if (not settlementNum.isdigit()):
+        print("\tInvalid number.")
+        return
+    settlementNum = int(settlementNum)
+    if (settlementNum < 0 or settlementNum >= len(settlementVertices)):
+        print("\tInvalid number.")
+        return
+
+    board.vertices[settlementVertices[settlementNum]].city = True
+    board.printBoard()
+
+
+def buildSettlement(board, player):
+    '''
+    Asks the player to build a settlement at a vertex and ensures that the move
+    is legal.
+    '''
+
+    # Checks if the player has the resources needed to build a settlement
+    if (player.resourceDict["wheat"] < 1 or player.resourceDict["wood"] < 1 or player.resourceDict["sheep"] < 1 or player.resourceDict["brick"] < 1):
+        print("\tYou don't have the necessary resources to build a settlement.")
+        return
+
+    board.printBoard()
+    print()
+    print("\tWhich vertex would you like to place it on? Pick the vertex number, starting from top left (and starting from 0).")
+    vertex = input("\t")
+    if (not vertex.isdigit()):
+        print("\tInvalid number.")
+        return
+    vertex = int(vertex)
+
+    # Determines if you can place a settlement on the inputted vertex. False
+    # means that this isn't the first settlement of the game.
+    if (board.canPlaceSettlement(vertex, player.name, False)):
+        board.placeSettlement(vertex, player.name)
+        board.printBoard()
+    else:
+        print("\tIllegal settlement placement.")
+
+
+def buildRoad(board, player):
+    '''
+    Asks the player to build a road between to vertices and ensures that the
+    move is legal.
+    '''
+
+    # Checks if the player has the resources needed to build a road
+    if (player.resourceDict["wood"] < 1 or player.resourceDict["brick"] < 1):
+        print("\tYou don't have the necessary resources to build a road.")
+        return
+
+    # Get the two vertices the road should connect.
+    board.printBoard()
+    print()
+    print("\tEnter the number of the first vertex it will connect to.")
+    vertex1 = input("\t")
+    if (not vertex1.isdigit()):
+        print("\tInvalid number.")
+        return
+    vertex1 = int(vertex1)
+
+    print("\tEnter the number of the second vertex it will connect to.")
+    vertex2 = input("\t")
+    if (not vertex2.isdigit()):
+        print("\tInvalid number.")
+        return
+    vertex2 = int(vertex2)
+
+    # Attempt to place it
+    if (board.canPlaceRoad(vertex1, vertex2, player.name)):
+        board.placeRoad(vertex1, vertex2, player.name)
+        board.printBoard()
+    else:
+        print("\tIllegal road placement.")
+
+
 if __name__ == '__main__':
     playerList = initializePlayers()
     board = createBoard()
@@ -256,7 +363,16 @@ if __name__ == '__main__':
                     playerTrade(currentPlayer, getPlayerFromName(playerList, trader))
                 else:
                     print("\tInvalid command.")
-
+            elif (command == "-b"):
+                print("\tWhat would you like to build? Type -c for a city, -s for a settlement, -r for a road, or -d for a development card.")
+                toBuild = input("\t")
+                if (toBuild == "-c"):
+                    buildCity(board, currentPlayer)
+                elif (toBuild == "-s"):
+                    buildSettlement(board, currentPlayer)
+                elif (toBuild == "-r"):
+                    buildRoad(board, currentPlayer)
+                # ADD MORE HERE
             elif (command == "-e"):
                 notDone = False
             else:

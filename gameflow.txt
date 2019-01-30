@@ -62,7 +62,7 @@ placeFirstSettlements(board, playerList):
             if (board.canPlaceSettlement(x, True)):
                 # legal placement
                 # add settlement makes that vertex in vertices not empty and fills the name
-                board.addSettlment(i.getName, x)
+                board.addSettlement(i.getName, x)
                 firstVertex = x
                 notPlaced = True
             else:
@@ -119,7 +119,7 @@ manageRobber(board, playerList):
             print(Player, you have more than 7 resources. Which would you like to discard? (first type the resource name))
             resource = input(player hand)
             if resource in player.resourceDict:
-                
+
 
 
 commenceTurn(board, playerList, currentIndex)
