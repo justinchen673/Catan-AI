@@ -1,7 +1,8 @@
 import random
 from setup import *
-from player import Player
 from board import *
+from developmentCardActions import *
+from player import Player
 
 def diceRoll():
     '''
@@ -325,24 +326,32 @@ def buildRoad(board, player):
 
 def buildDevCard(player, devCardDeck):
     '''
-    Gives the player a development card off of the deck.
+    Gives the player a development card off of the deck, and returns the string
+    containing the name of the development card. That's for tracking which cards
+    were obtained during the current turn (which the player cannot immediately
+    use).
     '''
 
     # Checks if the player has the resources needed to build a road
     if (player.resourceDict["ore"] < 1 or player.resourceDict["sheep"] < 1 or player.resourceDict["wheat"] < 1):
         print("\tYou don't have the necessary resources to get a development card.")
-        return
+        return None
 
     # Ensures there are still development cards
     if (len(devCardDeck) == 0):
         print("\tNo more development cards remain.")
-        return
+        return None
 
-    player.devCardDict[devCardDeck.pop()] += 1
+    newCard = devCardDeck.pop()
+    player.devCardDict[newCard] += 1
     player.resourceDict["ore"] -= 1
     player.resourceDict["sheep"] -= 1
     player.resourceDict["wheat"] -= 1
-    print(devCardDeck)
+
+    print()
+    player.printHand()
+
+    return newCard
 
 
 
@@ -376,9 +385,17 @@ if __name__ == '__main__':
         # Begin the action phase for the current player
         print("Player " + currentPlayer.name + ":")
         currentPlayer.printHand()
+        # Keep track of what development cards the player obtains in their turn. They can't immediately use them.
+        obtainedDevCards = {
+            "Knight": 0,
+            "Year of Plenty": 0,
+            "Monopoly": 0,
+            "Road Building": 0
+        }
         # Allow commands
         notDone = True
         while(notDone):
+            usedDevCard = False
             print()
             print("What would you like to do? Type a command, or -h for a list of commands.")
             command = input()
@@ -408,10 +425,48 @@ if __name__ == '__main__':
                 elif (toBuild == "-r"):
                     buildRoad(board, currentPlayer)
                 elif (toBuild == "-d"):
-                    buildDevCard(currentPlayer, devCardDeck)
+                    result = buildDevCard(currentPlayer, devCardDeck)
+                    if (result != None):
+                        obtainedDevCards[result] += 1
                 else:
                     print("\tInvalid command.")
+            elif (command == '-d'):
+                if (usedDevCard):
+                    print("\tYou may only use 1 development card per turn.")
+                else:
+                    usedDevCard = True
+                    print("\tWhich development card would you like to use? Type -k to use a knight, -y to use Year of Plenty, -m to use monopoly, or -r to use road building.")
+                    toUse = input("\t")
+                    if (toUse == "-k"):
+                        # Ensures they have a knight, and that they didn't just get it this turn.
+                        if (currentPlayer.devCardDict["Knight"] - obtainedDevCards["Knight"] - 1 >= 0):
+                            moveRobber(board, currentPlayer)
+                            currentPlayer.devCardDict["Knight"] -= 1
+                        else:
+                            print("\tYou can't use a knight.")
+                    elif (toUse == "-y"):
+                        if (currentPlayer.devCardDict["Year of Plenty"] - obtainedDevCards["Year of Plenty"] - 1 >= 0):
+                            yearOfPlenty(currentPlayer)
+                        else:
+                            print("You can't use year of plenty.")
+                    elif (toUse == "-m"):
+                        if (currentPlayer.devCardDict["Monopoly"] - obtainedDevCards["Monopoly"] - 1 >= 0):
+                            monopoly(playerList, currentPlayer)
+                        else:
+                            print("You can't use monopoly.")
+                    elif (toUse == "-r"):
+                        if (currentPlayer.devCardDict["Road Building"] - obtainedDevCards["Road Building"] - 1 >= 0):
+                            roadBuilding(board, currentPlayer)
+                        else:
+                            print("You can't use road building.")
+                    else:
+                        print("\tInvalid command.")
+                        usedDevCard = False
             elif (command == "-e"):
+                obtainedDevCards["Knight"] = 0
+                obtainedDevCards["Year of Plenty"] = 0
+                obtainedDevCards["Monopoly"] = 0
+                obtainedDevCards["Road Building"] = 0
                 notDone = False
             else:
                 print("Invalid command.")
