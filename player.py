@@ -20,13 +20,11 @@ class Player:
             "Victory Point": 0,
             "Road Building": 0
         }
-        self.settlementList = []
-        self.citiesList = []
-        self.roadsList = []
+        self.points = 0
         self.activeKnights = 0
         self.largestArmy = False
         self.longestRoad = False
-        
+
 
     def printHand(self):
         '''
@@ -50,9 +48,7 @@ class Player:
         have won, false if they haven't.
         '''
 
-        totalPoints = 0
-        totalPoints += len(self.settlementList)
-        totalPoints += (len(self.citiesList) * 2)
+        totalPoints = self.points
         if (self.largestArmy):
             totalPoints += 2
         if (self.longestRoad):

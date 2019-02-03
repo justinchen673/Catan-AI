@@ -125,7 +125,7 @@ def placeFirstSettlements(board, playerList):
             toPlace = int(input("Player " + i.name + ", select the vertex where you want to place your first settlement: "))
             if (board.canPlaceSettlement(toPlace, i.name, True)):
                 # Legal placement
-                board.placeSettlement(toPlace, i.name)
+                board.placeSettlement(toPlace, i)
                 firstVertex = toPlace
                 notPlaced = False
             else:
@@ -161,7 +161,7 @@ def placeFirstSettlements(board, playerList):
             toPlace = int(input("Player " + playerList[i].name + ", select the vertex where you want to place your second settlement: "))
             if (board.canPlaceSettlement(toPlace, playerList[i].name, True)):
                 # Legal placement
-                board.placeSettlement(toPlace, playerList[i].name)
+                board.placeSettlement(toPlace, playerList[i])
                 firstVertex = toPlace
                 notPlaced = False
                 secondSettlements.append((playerList[i], toPlace))

@@ -248,6 +248,7 @@ def buildCity(board, player):
     board.vertices[settlementVertices[settlementNum]].city = True
     player.resourceDict["wheat"] -= 2
     player.resourceDict["ore"] -= 3
+    player.points += 1
     board.printBoard()
 
 
@@ -274,7 +275,7 @@ def buildSettlement(board, player):
     # Determines if you can place a settlement on the inputted vertex. False
     # means that this isn't the first settlement of the game.
     if (board.canPlaceSettlement(vertex, player.name, False)):
-        board.placeSettlement(vertex, player.name)
+        board.placeSettlement(vertex, player)
         board.printBoard()
 
         player.resourceDict["wheat"] -= 1

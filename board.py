@@ -254,13 +254,14 @@ class Board:
         return True
 
 
-    def placeSettlement(self, vertex, playerName):
+    def placeSettlement(self, vertex, player):
         '''
         Adds a settlement to the board given the vertex and the player's name
         '''
 
         self.vertices[vertex].empty = False
-        self.vertices[vertex].playerName = playerName
+        self.vertices[vertex].playerName = player.name
+        player.points += 1
 
 
     def canPlaceRoad(self, vertex1, vertex2, playerName):
