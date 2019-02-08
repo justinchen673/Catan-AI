@@ -175,7 +175,6 @@ simple print function to help visualize each win
 def printWin(aWin):
 	print()
 	print("Number:\t\t", aWin.number)
-	print("______________________________________")
 	print("Victory Points:\t", aWin.totalVicPts)
 	print("Dev Cards:\t", aWin.devCardDict)
 	print("Settlements:\t", aWin.numSettlements)
@@ -198,9 +197,114 @@ def doEverything():
 	return winList
 
 
+'''
+returns a list of all the wins that require 'num' number of settlements 
+there are no wins with more than 5 settlements
+	returns false and an empty list if they try to do this
+'''
+def findSettlements(wl, num):
+	l = []
+	if(num > 5):
+		return False, l
+	for i in wl:
+		if i.numSettlements == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number of cities
+there are no wins with more than 4 cities
+	returns false and an empty list if they try to do this
+'''
+def findCities(wl,num):
+	l = []
+	if(num > 4):
+		return False, l
+	for i in wl:
+		if i.numCities == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number of victory point cards 
+there are no wins with more than 5 victory point cards since only 5 in the deck
+	returns false and an empty list if they try to do this
+'''
+def findDevVicPoints(wl,num):
+	l = []
+	if(num >5):
+		return False, l
+	for i in wl:
+		if i.devCardDict["devCardDict"] == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number of knights 
+there are no wins with more than 3 knights, atleast in the current version of the game
+	returns false and an empty list of they try to do this
+'''
+def findKnights(wl,num):
+	l = []
+	if(num >3):
+		return False, l
+	for i in wl:
+		if i.devCardDict["knights"] == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number of road building dev cards 
+there are no wins with more than 2 cards (the game only comes with 2)
+	returns false and an empty list if they try to do this
+'''
+def findRoadBuilding(wl,num):
+	l = []
+	if(num >2):
+		return False, l
+	for i in wl:
+		if i.devCardDict["roadBuilding"] == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number of minimum roads to win 
+there are no wins with more than 9 min roads or less than 2 (you start with 2)
+	returns false and an empty list if they try to do this
+'''
+def findMinimumRoads(wl, num):
+	l = []
+	if(num > 9 or num < 2):
+		return False, l
+	for i in wl:
+		if i.minRoadsNeeded == num:
+			l.append(i)
+	return True, l
+
+'''
+returns a list of all the wins that require 'num' number totall victory points to win 
+there are no wins with more than 12 pts or less than 10
+	returns false and an empty list if they try to do this
+'''
+def findTotalVicPoints(wl,num):
+	l = []
+	if(num > 12 or num < 10):
+		return False, l
+	for i in wl:
+		if i.totalVicPts == num:
+			l.append(i)
+	return True, l
+
 
 winList = doEverything()
 for i in winList:
 	print(i)
 printWin(winList[0])
+
+
+#example of the find functions
+works,wl1 = findTotalVicPoints(winList,12)
+print(len(wl1))
+for i in wl1:
+	printWin(i)
 
