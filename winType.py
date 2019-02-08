@@ -6,7 +6,7 @@ class Win:
 	characteristics of the class are similar to that of the  player class
 	'''
 
-	def __init__(self,name):
+	def __init__(self):
 
 		self.devCardDict = {
 			"knight": 0,
@@ -32,6 +32,13 @@ class Win:
 		}
 		self.totalCost = 0
 
+		self.number = 0
+
+	'''
+	'''
+	def __str__(self):
+		return  str(self.number)
+
 	'''
 	defines the type of win/ what the player uses to win the game. 
 	uses an input of similar dummy dictionaries and bools from the main AI function
@@ -51,9 +58,19 @@ class Win:
 
 		self.totalVicPts = vicPts + army + road +setts + cits
 
+	'''
+	
+	'''
 	def setRoads(self, minR, rBuilding):
 		self.minRoadsNeeded = minR
 		self.devCardDict["roadBuilding"] = rBuilding
+
+	'''
+
+	'''
+
+	def setNumber(self, counter):
+		self.number = counter
 
 	'''
 	calculate the total resouces requied to accomplish that particular winning strategy
@@ -66,25 +83,18 @@ class Win:
 			self.resourceDict["sheep"] = self.resourceDict["sheep"] + 1
 			self.resourceDict["ore"] = self.resourceDict["ore"] + 1
 			self.resourceDict["wheat"] = self.resourceDict["wheat"] + 1
-
-		if(self.numSettlements + self.numCities > 1):	
-			for i in range(0, self.numSettlements- 2):
-				self.resourceDict["sheep"] = self.resourceDict["sheep"] + 1
-				self.resourceDict["wood"] = self.resourceDict["wood"] + 1
-				self.resourceDict["brick"] = self.resourceDict["brick"] + 1
-				self.resourceDict["wheat"] = self.resourceDict["wheat"] + 1
-
-		for i in range(0, self.numCities):
-			self.resourceDict["ore"] = self.resourceDict["ore"] + 3
-			self.resourceDict["wheat"] = self.resourceDict["wheat"] + 2
-
-		for i in range(0, self.numCities - 2):
+	
+		for i in range(0, self.numSettlements + self.numCities - 2):
 			self.resourceDict["sheep"] = self.resourceDict["sheep"] + 1
 			self.resourceDict["wood"] = self.resourceDict["wood"] + 1
 			self.resourceDict["brick"] = self.resourceDict["brick"] + 1
 			self.resourceDict["wheat"] = self.resourceDict["wheat"] + 1
 
-		for i in range(0, (self.minRoadsNeeded - self.devCardDict["roadBuilding"])):
+		for i in range(0, self.numCities):
+			self.resourceDict["ore"] = self.resourceDict["ore"] + 3
+			self.resourceDict["wheat"] = self.resourceDict["wheat"] + 2
+
+		for i in range(0, self.minRoadsNeeded - (2*self.devCardDict["roadBuilding"]) -2):
 			self.resourceDict["wood"] = self.resourceDict["wood"] + 1
 			self.resourceDict["brick"] = self.resourceDict["brick"] + 1
 
@@ -96,6 +106,10 @@ class Win:
 	def calcTotalCost(self):
 		for key,val in self.resourceDict.items():
 			self.totalCost = self.totalCost + val
+		'''
+		for i in range(0, self.devCardDict["knight"]):
+			self.totalCost = self.totalCost -1
+		'''
 
 		return self.totalCost
 
@@ -119,10 +133,10 @@ class Win:
 			return True
 		return False
 
+	'''	
+	'''
 	def __lt__(self, other):
 		return self.totalCost < other.totalCost
 
-	def __str__(self):
-		return  str(self.totalCost)
 
 
