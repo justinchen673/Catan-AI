@@ -1,3 +1,7 @@
+Value of each position on the board will be determined by the value of the resource
+multiplue by the probability of the neccesary number, summed for all adjacent hexagons
+
+
 Rolling:
 
 2	2.778
