@@ -1,13 +1,38 @@
 """
 developmentCardActions.py
 
-This file holds the functions that will be used in playing development cards,
-with the exception of the knight, as the moveRobber function is already
-implemented in catan.py.
+This file holds the functions that will be used in playing development cards.
 """
 
 from player import Player
 from board import *
+from catan import moveRobber
+
+def moveKnight(board, player, playerList):
+    # Move robber action
+    moveRobber(board, player)
+
+    player.activeKnights += 1
+    # Figure out if the current player now has the largest army
+    if (player.activeKnights >= 3):
+        largestArmy = True
+        for i in playerList:
+            if (i.name != player.name):
+                # If anyone has more knights or the same number of knights,
+                # the current player can't have the largest army.
+                if (player.activeKnights <= i.activeKnights):
+                    largestArmy = False
+                    break
+        if (largestArmy):
+            # Only one can have the largest army, so make it false for all
+            # others
+            for i in playerList:
+                i.largestArmy = False
+            player.largestArmy = True
+
+
+    # Removes the development card from their hand
+    player.devCardDict["Knight"] -= 1
 
 def yearOfPlenty(player):
     '''

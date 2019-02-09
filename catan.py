@@ -423,12 +423,13 @@ if __name__ == '__main__':
             "Knight": 0,
             "Year of Plenty": 0,
             "Monopoly": 0,
-            "Road Building": 0
+            "Road Building": 0,
+            "Victory Point": 0
         }
         # Allow commands
         notDone = True
+        usedDevCard = False
         while(notDone):
-            usedDevCard = False
             print()
             print("What would you like to do? Type a command, or -h for a list of commands.")
             command = input()
@@ -473,8 +474,7 @@ if __name__ == '__main__':
                     if (toUse == "-k"):
                         # Ensures they have a knight, and that they didn't just get it this turn.
                         if (currentPlayer.devCardDict["Knight"] - obtainedDevCards["Knight"] - 1 >= 0):
-                            moveRobber(board, currentPlayer)
-                            currentPlayer.devCardDict["Knight"] -= 1
+                            moveKnight(board, currentPlayer, playerList)
                         else:
                             print("\tYou can't use a knight.")
                     elif (toUse == "-y"):
@@ -496,11 +496,18 @@ if __name__ == '__main__':
                         print("\tInvalid command.")
                         usedDevCard = False
             elif (command == "-e"):
+                usedDevCard = False
                 obtainedDevCards["Knight"] = 0
                 obtainedDevCards["Year of Plenty"] = 0
                 obtainedDevCards["Monopoly"] = 0
                 obtainedDevCards["Road Building"] = 0
+                obtainedDevCards["Victory Point"] = 0
                 notDone = False
+            elif (command == "dev"):
+                # DELETE WHEN DONE: ONLY FOR DEVELOPMENT
+                currentPlayer.resourceDict["wheat"] = 10
+                currentPlayer.resourceDict["ore"] = 10
+                currentPlayer.resourceDict["sheep"] = 10
             else:
                 print("Invalid command.")
 

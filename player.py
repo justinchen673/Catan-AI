@@ -39,6 +39,8 @@ class Player:
         print("\tDevelopment Cards:")
         print("\t\tKnights: " + str(self.devCardDict["Knight"]) + "\tMonopoly: " + str(self.devCardDict["Monopoly"]) + "\tYear of Plenty: " + str(self.devCardDict["Year of Plenty"]))
         print("\t\tVictory Points: " + str(self.devCardDict["Victory Point"]) + "\t\tRoad Building: " + str(self.devCardDict["Road Building"]))
+        print("\tStatus:")
+        print("\t\tLongest Road: " + str(self.longestRoad) + "\t\tLargest Army: " + str(self.largestArmy))
 
 
     def victorious(self):
