@@ -89,7 +89,7 @@ def printHelp():
     print("\t-e is for ending your turn.")
 
 
-def bankTrade(player):
+def bankTrade(board, player):
     '''
     Allows a user to trade with the bank. The player can always do a 4-1
     exchange, but depending on their ports they may be able to do 3-1 or 2-1
@@ -103,6 +103,38 @@ def bankTrade(player):
     brickReq = 4
     oreReq = 4
     woodReq = 4
+
+    # Check for ports
+    for vertex in board.vertices:
+        if vertex.playerName == player.name and vertex.port != None:
+            print("yeet")
+            # There is a port
+            if vertex.port.number == 3:
+                # This is a wild card, so change the default ones
+                if wheatReq == 4:
+                    wheatReq = 3
+                if sheepReq == 4:
+                    sheepReq = 3
+                if brickReq == 4:
+                    brickReq = 3
+                if oreReq == 4:
+                    oreReq = 3
+                if woodReq == 4:
+                    woodReq = 3
+            else:
+                # This is a specific resource port
+                if (vertex.port.resourceType == "wheat"):
+                    wheatReq = 2
+                if (vertex.port.resourceType == "sheep"):
+                    sheepReq = 2
+                if (vertex.port.resourceType == "brick"):
+                    brickReq = 2
+                if (vertex.port.resourceType == "ore"):
+                    oreReq = 2
+                if (vertex.port.resourceType == "wood"):
+                    woodReq = 2
+
+
     # NEED TO IMPLEMENT PORTS: WILL STILL KEEP FORMAT THOUGH
     print("\t" + str(wheatReq) + " wheat -> 1 ?")
     print("\t" + str(sheepReq) + " sheep -> 1 ?")
@@ -410,7 +442,7 @@ if __name__ == '__main__':
                     print("\tYou can't trade with yourself.")
                 elif (trader == "Bank"):
                     # Trade with the bank
-                    bankTrade(currentPlayer)
+                    bankTrade(board, currentPlayer)
                 elif (getPlayerFromName(playerList, trader) != None):
                     # Trade with another player
                     playerTrade(currentPlayer, getPlayerFromName(playerList, trader))

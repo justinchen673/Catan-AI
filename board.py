@@ -6,6 +6,8 @@ need. It is comprised of the Vertex and Hex classes, which together along some
 other structures makes up the Board class.
 """
 
+from port import Port
+
 class Vertex:
     '''
     This represents a single vertex on the board. Its number is designated by
@@ -17,6 +19,7 @@ class Vertex:
         self.empty = True
         self.playerName = ''
         self.city = False
+        self.port = None
 
 
 class Hex:
@@ -213,7 +216,7 @@ class Board:
             [43, 51],
             [44, 51, 52],
             [45, 52, 53],
-            [46, 55],
+            [46, 53],
             [47, 48],
             [48, 49],
             [49, 50]
@@ -341,7 +344,7 @@ class Board:
         returnStr = str(index)
         if (self.vertices[index].empty):
             # Returns the formatted number
-            
+
             if (len(returnStr) == 1):
                 return "  0" + returnStr + "  "
             return "  " + returnStr + "  "

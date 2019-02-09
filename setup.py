@@ -59,6 +59,26 @@ def createBoard():
     for i in range(0, 54):
         vertices.append(Vertex())
 
+    # Add the ports in the appropriate locations
+    vertices[1].port = Port(2, "wood")
+    vertices[4].port = Port(2, "wood")
+    vertices[2].port = Port(3, "none")
+    vertices[6].port = Port(3, "none")
+    vertices[7].port = Port(2, "brick")
+    vertices[11].port = Port(2, "brick")
+    vertices[15].port = Port(2, "wheat")
+    vertices[20].port = Port(2, "wheat")
+    vertices[21].port = Port(3, "none")
+    vertices[27].port = Port(3, "none")
+    vertices[37].port = Port(2, "ore")
+    vertices[42].port = Port(2, "ore")
+    vertices[38].port = Port(3, "none")
+    vertices[43].port = Port(3, "none")
+    vertices[48].port = Port(2, "sheep")
+    vertices[52].port = Port(2, "sheep")
+    vertices[50].port = Port(3, "none")
+    vertices[53].port = Port(3, "none")
+
     # Now create the hexes. First, shuffle the terrains.
     terrains = ["wheat", "wheat", "wheat", "wheat", "wood", "wood", "wood", "wood", "sheep", "sheep", "sheep", "sheep", "ore", "ore", "ore", "brick", "brick", "brick", "sand"]
     shuffle(terrains)
