@@ -10,7 +10,7 @@ from catan import moveRobber
 
 def moveKnight(board, player, playerList):
     # Move robber action
-    moveRobber(board, player)
+    moveRobber(board, player, playerList)
 
     player.activeKnights += 1
     # Figure out if the current player now has the largest army
