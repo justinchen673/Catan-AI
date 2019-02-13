@@ -453,7 +453,6 @@ def buildDevCard(player, devCardDeck):
 if __name__ == '__main__':
     playerList = initializePlayers()
     devCardDeck = initializeDevCards()
-    print(len(devCardDeck))
     board = createBoard()
 
     # Setup Phase

@@ -102,27 +102,28 @@ def createBoard():
 
     # The catan numbers spiral around the board, so we'll have to hardcode that
     # spiral format into it.
-    # TODO: Make the first hex not necessarily start at the upper left corner
+
+    # List of possible curl orders
+    hexCurlMatrix = [
+        [0, 1, 2, 11, 12, 13, 3, 10, 17, 18, 14, 4, 9, 16, 15, 5, 8, 7, 6],
+        [11, 0, 1, 10, 12, 13, 2, 9, 17, 18, 14, 3, 8, 16, 15, 4, 7, 6, 5],
+        [10, 11, 0, 9, 17, 12, 1, 8, 16, 18, 13, 2, 7, 15, 14, 3, 6, 5, 4],
+        [9, 10, 11, 8, 17, 12, 0, 7, 16, 18, 13, 1, 6, 15, 14, 2, 5, 4, 3],
+        [8, 9, 10, 7, 16, 17, 11, 6, 15, 18, 12, 0, 5, 14, 13, 1, 4, 3, 2],
+        [7, 8, 9, 6, 16, 17, 10, 5, 15, 18, 12, 11, 4, 14, 13, 0, 3, 2, 1],
+        [6, 7, 8, 5, 15, 16, 9, 4, 14, 18, 17, 10, 3, 13, 12, 11, 2, 1, 0],
+        [5, 6, 7, 4, 15, 16, 8, 3, 14, 18, 17, 9, 2, 13, 12, 10, 1, 0, 11],
+        [4, 5, 6, 3, 14, 15, 7, 2, 13, 18, 16, 8, 1, 12, 17, 9, 0, 11, 10],
+        [3, 4, 5, 2, 14, 15, 6, 1, 13, 18, 16, 7, 0, 12, 17, 8, 11, 10, 9],
+        [2, 3, 4, 1, 13, 14, 5, 0, 12, 18, 15, 6, 11, 17, 16, 7, 10, 9, 8],
+        [1, 2, 3, 0, 13, 14, 4, 11, 12, 18, 15, 5, 10, 17, 16, 6, 9, 8, 7]
+    ]
+
+    # Choose a random curl and format the board with it
+    curlIndex = random.randint(0, 11)
     hexes = []
-    hexes.append(hexesOrdered[0])
-    hexes.append(hexesOrdered[1])
-    hexes.append(hexesOrdered[2])
-    hexes.append(hexesOrdered[11])
-    hexes.append(hexesOrdered[12])
-    hexes.append(hexesOrdered[13])
-    hexes.append(hexesOrdered[3])
-    hexes.append(hexesOrdered[10])
-    hexes.append(hexesOrdered[17])
-    hexes.append(hexesOrdered[18])
-    hexes.append(hexesOrdered[14])
-    hexes.append(hexesOrdered[4])
-    hexes.append(hexesOrdered[9])
-    hexes.append(hexesOrdered[16])
-    hexes.append(hexesOrdered[15])
-    hexes.append(hexesOrdered[5])
-    hexes.append(hexesOrdered[8])
-    hexes.append(hexesOrdered[7])
-    hexes.append(hexesOrdered[6])
+    for i in hexCurlMatrix[curlIndex]:
+        hexes.append(hexesOrdered[i])
 
     return Board(vertices, hexes)
 
