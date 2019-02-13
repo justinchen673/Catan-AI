@@ -43,6 +43,18 @@ class Player:
         print("\t\tLongest Road: " + str(self.longestRoad) + "\t\tLargest Army: " + str(self.largestArmy))
 
 
+    def numResources(self):
+        '''
+        Returns how many resources this player has.
+        '''
+
+        num = 0
+        for resource in self.resourceDict:
+            num += self.resourceDict[resource]
+
+        return num
+
+
     def victorious(self):
         '''
         Checks if this player has won the game by summing up all of their

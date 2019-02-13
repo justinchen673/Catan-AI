@@ -86,12 +86,38 @@ def moveRobber(board, mover, playerList):
         for resource in victim.resourceDict:
             for i in range(0, victim.resourceDict[resource]):
                 resourceTheftList.append(resource)
-        randomIndex = random.randint(0, len(resourceTheftList))
-        victim.resourceDict[resourceTheftList[randomIndex]] -= 1
-        mover.resourceDict[resourceTheftList[randomIndex]] += 1
-        print("Successfully stole " + resourceTheftList[randomIndex])
+        if (len(resourceTheftList) != 0):
+            randomIndex = random.randint(0, len(resourceTheftList))
+            victim.resourceDict[resourceTheftList[randomIndex]] -= 1
+            mover.resourceDict[resourceTheftList[randomIndex]] += 1
+            print("Successfully stole " + resourceTheftList[randomIndex])
 
     board.printBoard()
+
+
+def halveHand(player, originalNumResources):
+    '''
+    Asks the player to remove cards from their hand until they're under half of
+    what they originally had. Called when a seven is rolled and a player has
+    more than 7 cards.
+    '''
+
+    print("Player " + player.name + ":")
+    targetNum = originalNumResources / 2
+    while (True):
+        player.printHand()
+        print("Please enter the name of the resource you would like to throw away.")
+        toDiscard = input()
+        if (toDiscard not in player.resourceDict):
+            print("Invalid resource.")
+        elif (player.resourceDict[toDiscard] == 0):
+            print("You don't have any " + toDiscard + ".")
+        else:
+            player.resourceDict[toDiscard] -= 1
+            if (player.numResources() <= targetNum):
+                return
+
+
 
 
 def handOutResources(board, playerList, roll):
@@ -448,6 +474,9 @@ if __name__ == '__main__':
         if (roll == 7):
             # Player moves robber
             moveRobber(board, currentPlayer, playerList)
+            for player in playerList:
+                if player.numResources() > 7:
+                    halveHand(player, player.numResources())
         else:
             handOutResources(board, playerList, roll)
 
