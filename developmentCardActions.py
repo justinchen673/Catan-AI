@@ -6,9 +6,14 @@ This file holds the functions that will be used in playing development cards.
 
 from player import Player
 from board import *
-from catan import moveRobber
+from gameFunctions import moveRobber
 
-def moveKnight(board, player, playerList):
+def useKnight(board, player, playerList):
+    '''
+    Uses the knight, which moves the robber and appends the knight to the
+    player's army. Also calculates who currently has the largest army.
+    '''
+
     # Move robber action
     moveRobber(board, player, playerList)
 
@@ -33,6 +38,7 @@ def moveKnight(board, player, playerList):
 
     # Removes the development card from their hand
     player.devCardDict["Knight"] -= 1
+
 
 def yearOfPlenty(player):
     '''

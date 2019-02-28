@@ -1,3 +1,11 @@
+"""
+player.py
+
+This file holds the representation of the Player object, which contains
+information regarding each player, such as their cards, points, and any titles
+they may hold.
+"""
+
 class Player:
     '''
     This is a single Player of the game.

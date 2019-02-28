@@ -18,6 +18,7 @@ def initializePlayers():
     '''
     Creates all the players and returns the list they are all in.
     '''
+
     players = input("How many people are playing? ")
     if(not players.isdigit()):
         print("Please enter a valid number.")
@@ -129,6 +130,12 @@ def createBoard():
 
 
 def placeFirstSettlements(board, playerList):
+    '''
+    This function is called when the players place the first settlements of the
+    game, in which they place 2. The player who puts down the first settlement
+    will also be the last, for fairness reasons.
+    '''
+
     # Determine who goes first: rotation will still be A, B, C, D though
     startIndex = random.randint(0, 3)
     for i in range(0, startIndex):

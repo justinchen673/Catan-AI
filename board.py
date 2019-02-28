@@ -52,7 +52,6 @@ class Hex:
         print(self.resourceType, self.number)
 
 
-
 class Board:
     '''
     This is an object of the entire board.
@@ -358,6 +357,7 @@ class Board:
                 if (len(returnStr) == 1):
                     return self.vertices[index].playerName + "S(0" + returnStr + ")"
                 return self.vertices[index].playerName + "S(" + returnStr + ")"
+
 
     def printBoard(self):
         '''
