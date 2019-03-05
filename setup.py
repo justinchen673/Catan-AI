@@ -168,7 +168,7 @@ def placeFirstSettlements(board, playerList):
             toPlace = int(input("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? "))
             if (board.canPlaceRoad(firstVertex, toPlace, i.name)):
                 # Legal placement
-                board.placeRoad(firstVertex, toPlace, i.name)
+                board.placeRoad(firstVertex, toPlace, i, playerList)
                 notPlaced = False
             else:
                 # Non legal placement
@@ -205,7 +205,7 @@ def placeFirstSettlements(board, playerList):
             toPlace = int(input("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? "))
             if (board.canPlaceRoad(firstVertex, toPlace, playerList[i].name)):
                 # Legal placement
-                board.placeRoad(firstVertex, toPlace, playerList[i].name)
+                board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
                 notPlaced = False
             else:
                 # Non legal placement

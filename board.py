@@ -308,21 +308,23 @@ class Board:
         return False
 
 
-    def placeRoad(self, vertex1, vertex2, playerName):
+    def placeRoad(self, vertex1, vertex2, player, playerList):
         '''
         Adds a road to the board given the 2 vertices it is between and the
         player's name
         '''
 
         if (vertex1 < vertex2):
-            self.roads[(vertex1, vertex2)] = playerName + playerName
+            self.roads[(vertex1, vertex2)] = player.name + player.name
         else:
-            self.roads[(vertex2, vertex1)] = playerName + playerName
+            self.roads[(vertex2, vertex1)] = player.name + player.name
 
-        self.calculateLongestRoadLength(playerName)
+        self.assignLongestRoad(player, playerList)
+        for i in playerList:
+            print(i.longestRoad)
 
 
-    def findRoadEdges(self, playerName, playerRoads):
+    def findRoadEdges(self, playerRoads):
         '''
         Checks to see which road (tuple pair of vertices) is the edge. If there
         is no edge, there must be a cycle, which we will account for later.
@@ -352,7 +354,7 @@ class Board:
         return edges
 
 
-    def dfs(self, visited, globalVisited, playerRoads, currentRoad, length, used):
+    def dfs(self, visited, globalVisited, player, playerRoads, currentRoad, length, used):
         '''
         Runs DFS to find the longest road.
         '''
@@ -363,17 +365,22 @@ class Board:
         globalVisited[currentRoad] = True
         length += 1
 
+        # Because dictionaries are passed by reference in python, we need to do
+        # a deepcopy
         visited2 = copy.deepcopy(visited)
 
+        # Detects if you reached the end of the road, in which case check length
         endOfRoad = True
 
         nextRoad = ()
-        nextUsed = -1
 
+        nextUsed = -1
         # "used" indicates the vertex it came from. The longest road cannot use
         # this vertex for the next road.
         if (used != 0):
             for vertex in self.vertexRelationMatrix[currentRoad[0]]:
+                # Our roads are tracked as (x, y) where x < y, so this figures
+                # out the formatting of the road tuple to check
                 if (vertex < currentRoad[0]):
                     nextRoad = (vertex, currentRoad[0])
                     nextUsed = 1
@@ -381,12 +388,16 @@ class Board:
                     nextRoad = (currentRoad[0], vertex)
                     nextUsed = 0
 
+                # This checks if the adjacent road is owned by the player and
+                # has not been visited. If so, recurse.
                 if nextRoad in playerRoads and visited[nextRoad] == False:
-                    self.dfs(visited2, globalVisited, playerRoads, nextRoad, length, nextUsed)
+                    self.dfs(visited2, globalVisited, player, playerRoads, nextRoad, length, nextUsed)
                     endOfRoad = False
 
         if (used != 1):
             for vertex in self.vertexRelationMatrix[currentRoad[1]]:
+                # Our roads are tracked as (x, y) where x < y, so this figures
+                # out the formatting of the road tuple to check
                 if (vertex < currentRoad[1]):
                     nextRoad = (vertex, currentRoad[1])
                     nextUsed = 1
@@ -395,43 +406,70 @@ class Board:
                     nextUsed = 0
 
                 if nextRoad in playerRoads and visited[nextRoad] == False:
-                    self.dfs(visited2, globalVisited, playerRoads, nextRoad, length, nextUsed)
+                    self.dfs(visited2, globalVisited, player, playerRoads, nextRoad, length, nextUsed)
                     endOfRoad = False
 
-        if endOfRoad and length > self.longest:
-            self.longest = length
+        # If you reached the end of the road, check the length to see if it's
+        # the longest.
+        if endOfRoad and length > player.longestRoadLength:
+            player.longestRoadLength = length
 
 
-    def calculateLongestRoadLength(self, playerName):
+    def calculateLongestRoadLength(self, player):
         '''
-        Finds the length of the player's longest road.
+        Finds the length of the player's longest road, and updates it in
+        player.longestRoadLength.
         '''
 
         playerRoads = {}
         for road in self.roads:
-            if (self.roads[road][0] == playerName):
+            if (self.roads[road][0] == player.name):
                 playerRoads[road] = True
 
-        edges = self.findRoadEdges(playerName, playerRoads)
+        edges = self.findRoadEdges(playerRoads)
 
         visited = {}
         globalVisited = {}
         for road in playerRoads:
             visited[road] = False
             globalVisited[road] = False
-        self.longest = 0
 
         for edge in edges:
-            self.dfs(visited, globalVisited, playerRoads, edge, 0, -1)
+            self.dfs(visited, globalVisited, player, playerRoads, edge, 0, -1)
             visited = {}
             for road in playerRoads:
                 visited[road] = False
 
         for road in globalVisited:
             if globalVisited[road] == False:
-                self.dfs(visited, globalVisited, playerRoads, road, 0, 0)
+                self.dfs(visited, globalVisited, player, playerRoads, road, 0, 0)
 
-        print(self.longest)
+
+    def assignLongestRoad(self, player, playerList):
+        '''
+        Calculates who has the longest road.
+        '''
+
+        # Player just added a road, so update their longest road length. It may
+        # or may not change.
+        self.calculateLongestRoadLength(player)
+
+        # Figure out if the current player now has the longest road
+        if (player.longestRoadLength >= 5):
+            longestRoad = True
+            for i in playerList:
+                if (i.name != player.name):
+                    # If anyone has more roads or the same number of roads, the
+                    # current player can't have the longest road.
+                    if (player.longestRoadLength <= i.longestRoadLength):
+                        longestRoad = False
+                        break
+            if (longestRoad):
+                # Only one can have the largest army, so make it false for all
+                # others
+                for i in playerList:
+                    i.longestRoad = False
+                player.longestRoad = True
 
 
     def formatHex(self,resource):

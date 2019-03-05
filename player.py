@@ -30,6 +30,7 @@ class Player:
         }
         self.points = 0
         self.activeKnights = 0
+        self.longestRoadLength = 0
         self.largestArmy = False
         self.longestRoad = False
 
