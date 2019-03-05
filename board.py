@@ -6,7 +6,9 @@ need. It is comprised of the Vertex and Hex classes, which together along some
 other structures makes up the Board class.
 """
 
+import copy
 from port import Port
+from player import Player
 
 class Vertex:
     '''
@@ -221,7 +223,6 @@ class Board:
             [49, 50]
         ]
 
-
     def canPlaceSettlement(self, vertex, playerName, firstPlacement):
         '''
         Determines if a settlement can be placed at the vertex given the user.
@@ -317,6 +318,120 @@ class Board:
             self.roads[(vertex1, vertex2)] = playerName + playerName
         else:
             self.roads[(vertex2, vertex1)] = playerName + playerName
+
+        self.calculateLongestRoadLength(playerName)
+
+
+    def findRoadEdges(self, playerName, playerRoads):
+        '''
+        Checks to see which road (tuple pair of vertices) is the edge. If there
+        is no edge, there must be a cycle, which we will account for later.
+        '''
+
+        # The list of edges to be returned
+        edges = []
+
+        for road in playerRoads:
+            # vertex_ indicates whether that vertex has a connection. If both
+            # are True, then this road cannot be an edge.
+            vertex1 = False
+            vertex2 = False
+            # Checks for a connection with the first vertex
+            for vertex in self.vertexRelationMatrix[road[0]]:
+                if ((road[0], vertex) in playerRoads and (road[0], vertex) != road) or ((vertex, road[0]) in playerRoads and (vertex, road[0]) != road):
+                    vertex1 = True
+
+            # Checks for a connection with the second vertex
+            for vertex in self.vertexRelationMatrix[road[1]]:
+                if ((road[1], vertex) in playerRoads and (road[1], vertex) != road) or ((vertex, road[1]) in playerRoads and (vertex, road[1]) != road):
+                    vertex2 = True
+
+            if not (vertex1 and vertex2):
+                edges.append(road)
+
+        return edges
+
+
+    def dfs(self, visited, globalVisited, playerRoads, currentRoad, length, used):
+        '''
+        Runs DFS to find the longest road.
+        '''
+
+        visited[currentRoad] = True
+        # globalVisited is for ensuring all roads are checked, mainly just
+        # applicable for cycles
+        globalVisited[currentRoad] = True
+        length += 1
+
+        visited2 = copy.deepcopy(visited)
+
+        endOfRoad = True
+
+        nextRoad = ()
+        nextUsed = -1
+
+        # "used" indicates the vertex it came from. The longest road cannot use
+        # this vertex for the next road.
+        if (used != 0):
+            for vertex in self.vertexRelationMatrix[currentRoad[0]]:
+                if (vertex < currentRoad[0]):
+                    nextRoad = (vertex, currentRoad[0])
+                    nextUsed = 1
+                else:
+                    nextRoad = (currentRoad[0], vertex)
+                    nextUsed = 0
+
+                if nextRoad in playerRoads and visited[nextRoad] == False:
+                    self.dfs(visited2, globalVisited, playerRoads, nextRoad, length, nextUsed)
+                    endOfRoad = False
+
+        if (used != 1):
+            for vertex in self.vertexRelationMatrix[currentRoad[1]]:
+                if (vertex < currentRoad[1]):
+                    nextRoad = (vertex, currentRoad[1])
+                    nextUsed = 1
+                else:
+                    nextRoad = (currentRoad[1], vertex)
+                    nextUsed = 0
+
+                if nextRoad in playerRoads and visited[nextRoad] == False:
+                    self.dfs(visited2, globalVisited, playerRoads, nextRoad, length, nextUsed)
+                    endOfRoad = False
+
+        if endOfRoad and length > self.longest:
+            self.longest = length
+
+
+    def calculateLongestRoadLength(self, playerName):
+        '''
+        Finds the length of the player's longest road.
+        '''
+
+        playerRoads = {}
+        for road in self.roads:
+            if (self.roads[road][0] == playerName):
+                playerRoads[road] = True
+
+        edges = self.findRoadEdges(playerName, playerRoads)
+
+        visited = {}
+        globalVisited = {}
+        for road in playerRoads:
+            visited[road] = False
+            globalVisited[road] = False
+        self.longest = 0
+
+        for edge in edges:
+            self.dfs(visited, globalVisited, playerRoads, edge, 0, -1)
+            visited = {}
+            for road in playerRoads:
+                visited[road] = False
+
+        for road in globalVisited:
+            if globalVisited[road] == False:
+                self.dfs(visited, globalVisited, playerRoads, road, 0, 0)
+
+        print(self.longest)
 
 
     def formatHex(self,resource):
