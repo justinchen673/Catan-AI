@@ -95,7 +95,7 @@ def monopoly(playerList, player):
     player.devCardDict["Monopoly"] -= 1
 
 
-def roadBuilding(board, player):
+def roadBuilding(board, player, playerList):
     '''
     Builds two roads for the player, free of resource cost.
     '''
@@ -130,7 +130,7 @@ def roadBuilding(board, player):
                     notReceived = False
 
             if (board.canPlaceRoad(vertex1, vertex2, player.name)):
-                board.placeRoad(vertex1, vertex2, player.name)
+                board.placeRoad(vertex1, vertex2, player, playerList)
                 board.printBoard()
                 notPlaced = False
             else:

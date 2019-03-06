@@ -19,12 +19,12 @@ def initializePlayers():
     Creates all the players and returns the list they are all in.
     '''
     playerList = []
-    
+
     players = input("How many people are playing? ")
     while not players.isdigit() or (int(players) > 4) or (int(players) < 2):
         print("Please enter a valid number.")
         players = input("How many people are playing? ")
-        
+
     playerList.append(Player("A"))
     playerList.append(Player("B"))
     if (int(players) >= 3):
@@ -153,7 +153,7 @@ def placeFirstSettlements(board, playerList):
                     print("Please enter a valid vertex.")
             else:
                 print("Please enter a valid vertex.")
-                
+
 
         board.printBoard()
 
@@ -165,7 +165,7 @@ def placeFirstSettlements(board, playerList):
                 toPlace = int(toPlace)
                 if (board.canPlaceRoad(firstVertex, toPlace, i.name)):
                     # Legal placement
-                    board.placeRoad(firstVertex, toPlace, i.name)
+                    board.placeRoad(firstVertex, toPlace, i, playerList)
                     notPlaced = False
                 else:
                     # Non legal placement
@@ -210,7 +210,7 @@ def placeFirstSettlements(board, playerList):
                 toPlace = int(toPlace)
                 if (board.canPlaceRoad(firstVertex, toPlace, playerList[i].name)):
                     # Legal placement
-                    board.placeRoad(firstVertex, toPlace, playerList[i].name)
+                    board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
                     notPlaced = False
                 else:
                     # Non legal placement

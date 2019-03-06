@@ -85,7 +85,7 @@ def buildSettlement(board, player):
         print("\tIllegal settlement placement.")
 
 
-def buildRoad(board, player):
+def buildRoad(board, player, playerList):
     '''
     Asks the player to build a road between to vertices and ensures that the
     move is legal.
@@ -115,7 +115,7 @@ def buildRoad(board, player):
 
     # Attempt to place it
     if (board.canPlaceRoad(vertex1, vertex2, player.name)):
-        board.placeRoad(vertex1, vertex2, player.name)
+        board.placeRoad(vertex1, vertex2, player, playerList)
         board.printBoard()
 
         player.resourceDict["wood"] -= 1

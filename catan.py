@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 elif (toBuild == "-s"):
                     buildSettlement(board, currentPlayer)
                 elif (toBuild == "-r"):
-                    buildRoad(board, currentPlayer)
+                    buildRoad(board, currentPlayer, playerList)
                 elif (toBuild == "-d"):
                     result = buildDevCard(currentPlayer, devCardDeck)
                     if (result != None):
@@ -127,7 +127,7 @@ if __name__ == '__main__':
                             print("You can't use monopoly.")
                     elif (toUse == "-r"):
                         if (currentPlayer.devCardDict["Road Building"] - obtainedDevCards["Road Building"] - 1 >= 0):
-                            roadBuilding(board, currentPlayer)
+                            roadBuilding(board, currentPlayer, playerList)
                         else:
                             print("You can't use road building.")
                     else:
@@ -143,9 +143,8 @@ if __name__ == '__main__':
                 notDone = False
             elif (command == "dev"):
                 # DELETE WHEN DONE: ONLY FOR DEVELOPMENT
-                currentPlayer.resourceDict["wheat"] = 10
-                currentPlayer.resourceDict["ore"] = 10
-                currentPlayer.resourceDict["sheep"] = 10
+                currentPlayer.resourceDict["wood"] = 10
+                currentPlayer.resourceDict["brick"] = 10
             else:
                 print("Invalid command.")
 
