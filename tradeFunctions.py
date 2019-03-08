@@ -7,6 +7,7 @@ another player or trading with the bank.
 
 from board import *
 from player import Player
+from botFunctions import *
 
 def bankTrade(board, player):
     '''
@@ -135,28 +136,40 @@ def playerTrade(player1, player2):
         print("\tYou don't have enough " + resource1 + ".")
         return
 
-    # Get the resource and number to be traded from the second player
-    print("\tPlayer " + player2.name + ", what resource are you trading in? Type in the full resource name.")
+
+    print("\tWhat resource do you want from Player " + player2.name + "? Type in the full resource name.")
     resource2 = input("\t")
     if not resource2 in player2.resourceDict:
         print("\tInvalid resource.")
         return
 
-    print("\tHow many " + resource2 + " are you trading?")
+    print("\tHow many " + resource2 + " do you want?")
     quantity2 = input("\t")
     if (not quantity2.isdigit()):
         print("\tInvalid number.")
         return
     quantity2 = int(quantity2)
     if (quantity2 > player2.resourceDict[resource2] or quantity2 < 1):
-        print("\tYou don't have enough " + resource2 + ".")
+        print("\tPlayer" + player2.name + "does't have enough " + resource2 + ".")
         return
 
-    # If it reaches this point, the trade has no barriers and can go through
-    player1.resourceDict[resource1] -= quantity1
-    player1.resourceDict[resource2] += quantity2
-    player2.resourceDict[resource1] += quantity1
-    player2.resourceDict[resource2] -= quantity2
-    print("\tTrade successful!")
-    print()
+
+    # Get the resource and number to be traded from the second player
+    print("\tPlayer " + player2.name + "do you accept this trade? Y if yes, N if no. ")
+    decision = None
+    if(player2.isBot):
+        decision = botTradeAcceptance()
+    else:  
+        decision = input("\t")
+    if(decision == "Y"):
+        # If it reaches this point, the trade has no barriers and can go through
+        player1.resourceDict[resource1] -= quantity1
+        player1.resourceDict[resource2] += quantity2
+        player2.resourceDict[resource1] += quantity1
+        player2.resourceDict[resource2] -= quantity2
+        print("\tTrade successful!")
+        print()
+    else:
+        print("\tTrade unsuccessful!")
+        print()
     player1.printHand()

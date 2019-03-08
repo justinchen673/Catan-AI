@@ -13,6 +13,7 @@ import random
 from random import shuffle
 from player import Player
 from board import *
+from botFunctions import *
 
 def initializePlayers():
     '''
@@ -27,6 +28,17 @@ def initializePlayers():
     if (numPlayers > 4 or numPlayers < 2):
         print("There can only be 2-4 players.")
         exit()
+
+
+    bots = input("How many bots are playing? ")
+    if (not bots.isdigit()):
+        print("Please enter a valid number.")
+        exit()
+    numBots = int(bots)
+    if(numBots > numPlayers):
+        print("Number of bots must be less than or equal to number of players.")
+        exit()
+
     playerList = []
     playerList.append(Player("A"))
     playerList.append(Player("B"))
@@ -34,6 +46,10 @@ def initializePlayers():
         playerList.append(Player("C"))
     if (numPlayers >= 4):
         playerList.append(Player("D"))
+
+    for position in range(0, numBots):
+        playerList[position].isBot = True
+
 
     return playerList
 
@@ -150,29 +166,44 @@ def placeFirstSettlements(board, playerList):
         firstVertex = 0
         notPlaced = True
         while(notPlaced):
-            toPlace = int(input("Player " + i.name + ", select the vertex where you want to place your first settlement: "))
-            if (board.canPlaceSettlement(toPlace, i.name, True)):
-                # Legal placement
+            print("Player " + i.name + ", select the vertex where you want to place your first settlement: ")
+            toPlace = None
+            if (i.isBot == True):
+                toPlace = botPlaceFirstSettlement()
                 board.placeSettlement(toPlace, i)
                 firstVertex = toPlace
                 notPlaced = False
             else:
-                # Non legal placement
-                print("Please enter a valid vertex.")
+                toPlace = int(input())
+                if (board.canPlaceSettlement(toPlace, i.name, True)):
+                    # Legal placement
+                    board.placeSettlement(toPlace, i)
+                    firstVertex = toPlace
+                    notPlaced = False
+                else:
+                    # Non legal placement
+                    print("Please enter a valid vertex.")
 
         board.printBoard()
 
         # Get road
         notPlaced = True
         while(notPlaced):
-            toPlace = int(input("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? "))
-            if (board.canPlaceRoad(firstVertex, toPlace, i.name)):
-                # Legal placement
-                board.placeRoad(firstVertex, toPlace, i, playerList)
+            print("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? ")
+            toPlace = None
+            if(i.isBot ==True):
+                toPlace = botBuildFirstRoad()
+                board.placeRoad(firstVertex, toPlace, i.name)
                 notPlaced = False
             else:
-                # Non legal placement
-                print("Please enter a valid vertex.")
+                toPlace = int(input())
+                if (board.canPlaceRoad(firstVertex, toPlace, i.name)):
+                    # Legal placement
+                    board.placeRoad(firstVertex, toPlace, i, playerList)
+                    notPlaced = False
+                else:
+                    # Non legal placement
+                    print("Please enter a valid vertex.")
 
 
     # To find out what initial resouces to the players should receive
@@ -186,23 +217,40 @@ def placeFirstSettlements(board, playerList):
         firstVertex = 0
         notPlaced = True
         while(notPlaced):
-            toPlace = int(input("Player " + playerList[i].name + ", select the vertex where you want to place your second settlement: "))
-            if (board.canPlaceSettlement(toPlace, playerList[i].name, True)):
-                # Legal placement
+            print("Player " + playerList[i].name + ", select the vertex where you want to place your second settlement: ")
+            toPlace = None
+            if(playerList[i].isBot == True):
+                toPlace = botPlaceSecondSettlement()
                 board.placeSettlement(toPlace, playerList[i])
                 firstVertex = toPlace
                 notPlaced = False
                 secondSettlements.append((playerList[i], toPlace))
             else:
-                # Non legal placement
-                print("Please enter a valid vertex.")
+                toPlace = int(input())
+                if (board.canPlaceSettlement(toPlace, playerList[i].name, True)):
+                    # Legal placement
+                    board.placeSettlement(toPlace, playerList[i])
+                    firstVertex = toPlace
+                    notPlaced = False
+                    secondSettlements.append((playerList[i], toPlace))
+                else:
+                    # Non legal placement
+                    print("Please enter a valid vertex.")
 
         board.printBoard()
 
         # Get road
         notPlaced = True
         while(notPlaced):
-            toPlace = int(input("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? "))
+            print("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? ")
+            
+            toPlace = None
+            if(playerList[i].isBot == True):
+                toPlace = botBuildSecondRoad()
+                board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
+                notPlaced = False
+
+            toPlace = int(input())
             if (board.canPlaceRoad(firstVertex, toPlace, playerList[i].name)):
                 # Legal placement
                 board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
