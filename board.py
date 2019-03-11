@@ -219,6 +219,48 @@ class Board:
             [49, 50]
         ]
 
+    def longestRoadHelper(self, tupleval):
+        '''
+        Finds next road connection. returns all next possible tuples.
+        tup = tupleval
+        
+
+        '''
+    def longestRoad(self):
+        '''
+        Determines who has the longest road
+        roadSizeA (int)
+        roadSizeB
+        roadSizeC
+        roadSizeD
+        arrayA
+        arrayB
+        arrayC
+        arrayD
+        iter = 0
+        tup = (X,Y)
+        bool = false
+        for key1, value1 in self.roads:
+            if value == "XX":
+                arrayA.append(key1)
+                tup = key1
+                while true:
+                    if (self.roads[iter].key[0] == tup[0] || self.roads[iter].key[1] == tup[1]) && tup not in arrayA && self.roads[iter].value == "XX":
+                        tup = self.roads[iter].key
+                        roadSizeX++
+                        arrayX.append(tup)
+                        iter = 0
+
+                    iter++
+        '''
+
+        MasterRoadDictionary = []
+        while 1: 
+            for key,value in self.roads:
+                if value == "AA" or value == "BB" or value == "CC" or value == "DD":
+                    MasterRoadDictionary.append((key,value,0,[]))
+
+
 
     def canPlaceSettlement(self, vertex, playerName, firstPlacement):
         '''
@@ -362,9 +404,9 @@ class Board:
         '''
         print(" "*10+"                                     Wood                Wildcard")
         print(" "*10+"                            "+self.formatVertex(0)+"   @4,1       "+self.formatVertex(1)+"   @2,6       "+self.formatVertex(2)+"")
-        print(" "*10+"                            "+self.roads[(0,3)]+"  "+self.roads[(0,4)]+"              "+self.roads[(1,4)]+"  "+self.roads[(1,5)]+"              "+self.roads[(2,5)]+"  "+self.roads[(2,6)]+"")
-        print(" "*10+"                          "+self.roads[(0,3)]+"      "+self.roads[(0,4)]+"          "+self.roads[(1,4)]+"      "+self.roads[(1,5)]+"          "+self.roads[(2,5)]+"      "+self.roads[(2,6)]+"")
-        print(" "*10+"                        "+self.roads[(0,3)]+"          "+self.roads[(0,4)]+"      "+self.roads[(1,4)]+"          "+self.roads[(1,5)]+"      "+self.roads[(2,5)]+"          "+self.roads[(2,6)]+"")
+        print(" "*10+"                            "+self.roads[(0,3)]+"  "+self.roads[(0,4)]+"              "+self.roads[(1,4)]+"  "+self.roads[(1,5)]+"              "+self.roads[(2,5)]+"  "+self.roads[(2,6)])
+        print(" "*10+"                          "+self.roads[(0,3)]+"      "+self.roads[(0,4)]+"          "+self.roads[(1,4)]+"      "+self.roads[(1,5)]+"          "+self.roads[(2,5)]+"      "+self.roads[(2,6)])
+        print(" "*10+"                        "+self.roads[(0,3)]+"          "+self.roads[(0,4)]+"      "+self.roads[(1,4)]+"          "+self.roads[(1,5)]+"      "+self.roads[(2,5)]+"          "+self.roads[(2,6)])
         print(" "*10+"                      "+self.roads[(0,3)]+"              "+self.roads[(0,4)]+"  "+self.roads[(1,4)]+"              "+self.roads[(1,5)]+"  "+self.roads[(2,5)]+"              "+self.roads[(2,6)]+" ")
         print(" "*10+"                  "+self.formatVertex(3)+"              "+self.formatVertex(4)+"              "+self.formatVertex(5)+"              "+self.formatVertex(6)+"")
         print(" "*10+"                    "+self.roads[(3,7)]+self.formatHex(self.hexes[0].resourceType)+self.roads[(4,8)]+self.formatHex(self.hexes[1].resourceType)+ self.roads[(5,9)]+self.formatHex(self.hexes[2].resourceType)+ self.roads[(6,10)])
