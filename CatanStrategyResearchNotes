@@ -1,0 +1,22 @@
+Referenced: http://homepages.inf.ed.ac.uk/alex/papers/cig2014_gs.pdf
+Written by Markus Guhe, Alex Lascarides
+School of Informatics
+University of Edinburgh
+Email: m.guhe@ed.ac.uk, alex@inf.ed.ac.uk
+
+Main game strategies for Catan:
+	
+	_Improvements to AI's initial placement on Catan Board
+		- Three important considerations: Initial placement, future build plans, and fast vs. smart strategy.
+		- Place settlements where the 4 types of pieces, road, settlements, cities, and development cards are minimized in the amount of resources needed to acquire them.
+			> (Is one type of build path statistically better than the other? I.E. are building development cards more important than building cities? Is one better than the other in the later stages of the game? This is an important consideration for the Catan AI)
+		- Guhe's three points for the Catan's initial settlement placement strategy
+			> Steers away from hexes with the same number so the user can receive more evenly spread resources.
+			> Steers away from building both settlements on adjacent hex. 
+			> Strategy choice towards later game:
+				+ Use different weighted values for the resources; pieces that require fewer resources are valued more
+				+ Use different weighted values for the resources; however, just focused on what can be built the fastest.
+
+	_Guhe's "global default preference" toward build plan types.
+		- Ranking: City > Settlement > Largest Army > Longest Road > Development card
+		- The AI would select the highest build plan in this list with the lowest estimated time build than the others. (This seems like a valid way to build in Catan)
