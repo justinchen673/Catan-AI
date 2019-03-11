@@ -27,7 +27,6 @@ def bankTrade(board, player):
     # Check for ports
     for vertex in board.vertices:
         if vertex.playerName == player.name and vertex.port != None:
-            print("yeet")
             # There is a port
             if vertex.port.number == 3:
                 # This is a wild card, so change the default ones
@@ -159,7 +158,7 @@ def playerTrade(player1, player2):
     decision = None
     if(player2.isBot):
         decision = botTradeAcceptance()
-    else:  
+    else:
         decision = input("\t")
     if(decision == "Y"):
         # If it reaches this point, the trade has no barriers and can go through
