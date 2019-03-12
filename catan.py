@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 if player.numResources() > 7:
                     if (player.isBot):
                         botHalveHand(player, player.numResources())
-                    else:    
+                    else:
                         halveHand(player, player.numResources())
         else:
             handOutResources(board, playerList, roll)
@@ -78,7 +78,7 @@ if __name__ == '__main__':
             if (currentPlayer.isBot):
                 botGameTurn(currentPlayer)
                 notDone = False
-            else:    
+            else:
                 command = input()
                 if (command == "-h"):
                     printHelp()
@@ -152,8 +152,9 @@ if __name__ == '__main__':
                     notDone = False
                 elif (command == "dev"):
                     # DELETE WHEN DONE: ONLY FOR DEVELOPMENT
-                    currentPlayer.resourceDict["wood"] = 10
-                    currentPlayer.resourceDict["brick"] = 10
+                    currentPlayer.resourceDict["sheep"] = 1
+                    currentPlayer.resourceDict["ore"] = 1
+                    currentPlayer.resourceDict["wheat"] = 1
                 else:
                     print("Invalid command.")
 

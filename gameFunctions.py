@@ -75,7 +75,7 @@ def moveRobber(board, mover, playerList):
     possibleVictims = []
     # Add the people next to the robber to the possible victims list
     for vertex in adjacentVertices:
-        if (board.vertices[vertex].empty == False and board.vertices[vertex].playerName != mover.name and board.vertices[vertex].playerName not in possibleVictims):
+        if (board.vertices[vertex].empty == False and board.vertices[vertex].playerName != mover.name and getPlayerFromName(playerList, board.vertices[vertex].playerName) not in possibleVictims):
             possibleVictims.append(getPlayerFromName(playerList, board.vertices[vertex].playerName))
 
     if (len(possibleVictims) == 1):
@@ -88,13 +88,13 @@ def moveRobber(board, mover, playerList):
             name = None
             if(mover.isBot == True):
                 name = botChooseWhoToRob()
-            else:  
-                name = input()  
-                if (name not in possibleVictims):
+            else:
+                name = input()
+                if (getPlayerFromName(playerList, name) not in possibleVictims):
                     print("Invalid user.")
                 else:
                     for i in range(0, len(possibleVictims)):
-                        if possibleVictims[i] == name:
+                        if possibleVictims[i] == getPlayerFromName(playerList, name):
                             victim = possibleVictims[i]
     if (victim != None):
         # Put their resources in a list and take one at random
