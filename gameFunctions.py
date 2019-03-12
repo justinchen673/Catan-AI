@@ -103,7 +103,7 @@ def moveRobber(board, mover, playerList):
             for i in range(0, victim.resourceDict[resource]):
                 resourceTheftList.append(resource)
         if (len(resourceTheftList) != 0):
-            randomIndex = random.randint(0, len(resourceTheftList))
+            randomIndex = random.randint(0, len(resourceTheftList)-1)
             victim.resourceDict[resourceTheftList[randomIndex]] -= 1
             mover.resourceDict[resourceTheftList[randomIndex]] += 1
             print("Successfully stole " + resourceTheftList[randomIndex])
