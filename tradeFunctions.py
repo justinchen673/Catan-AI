@@ -149,12 +149,12 @@ def playerTrade(player1, player2):
         return
     quantity2 = int(quantity2)
     if (quantity2 > player2.resourceDict[resource2] or quantity2 < 1):
-        print("\tPlayer" + player2.name + "does't have enough " + resource2 + ".")
+        print("\tPlayer " + player2.name + " doesn't have enough " + resource2 + ".")
         return
 
 
     # Get the resource and number to be traded from the second player
-    print("\tPlayer " + player2.name + "do you accept this trade? Y if yes, N if no. ")
+    print("\tPlayer " + player2.name + ", do you accept this trade? Y if yes, N if no. ")
     decision = None
     if(player2.isBot):
         decision = botTradeAcceptance()
