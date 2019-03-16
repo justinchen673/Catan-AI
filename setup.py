@@ -1,9 +1,7 @@
 """
 setup.py
-
 This file holds several functions that are used in the setup phase of the Catan
 game. The setup phase consists of:
-
     (1) Finding out how many people are playing
     (2) Getting each player to place their first and second settlements before
         the first dice roll occurs.
@@ -49,7 +47,6 @@ def initializePlayers():
         playerList.append(Player("C"))
     if (numPlayers >= 4):
         playerList.append(Player("D"))
-
     for position in range(0, numBots):
         playerList[position].isBot = True
     '''
