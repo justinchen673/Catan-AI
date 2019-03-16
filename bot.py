@@ -27,7 +27,7 @@ class Bot(Player):
 
     def checkDevCardProb(self):
          
-
+        return true
 
     def devCardSanityCheck(self):
     	cards = self.numCardsOut + self.devCardDeckSize
