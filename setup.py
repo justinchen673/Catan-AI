@@ -39,7 +39,9 @@ def initializePlayers():
         print("Number of bots must be less than or equal to number of players.")
         exit()
 
+    playerNames = ["A", "B", "C", "D"]
     playerList = []
+    '''
     playerList.append(Player("A"))
     playerList.append(Player("B"))
     if (numPlayers >= 3):
@@ -49,6 +51,15 @@ def initializePlayers():
 
     for position in range(0, numBots):
         playerList[position].isBot = True
+    '''
+
+    for i in range(0, numPlayers):
+        if (i < numBots):
+            playerList.append(Bot(playerNames[i]))
+            print("bot made")
+        else:
+            playerList.append(Player(playerNames[i]))
+            print("player made")
 
 
     return playerList
