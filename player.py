@@ -33,7 +33,12 @@ class Player:
         self.longestRoadLength = 0
         self.largestArmy = False
         self.longestRoad = False
+
+
+        #bot functions
         self.isBot = False
+
+
 
 
     def printHand(self):

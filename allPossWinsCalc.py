@@ -301,10 +301,13 @@ for i in winList:
 	print(i)
 printWin(winList[0])
 
-
+'''
 #example of the find functions
 works,wl1 = findTotalVicPoints(winList,12)
 print(len(wl1))
 for i in wl1:
 	printWin(i)
+
+'''
+print(len(winList))
 
