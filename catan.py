@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 if player.numResources() > 7:
                     if (player.isBot):
                         botHalveHand(player, player.numResources())
-                    else:    
+                    else:
                         halveHand(player, player.numResources())
         else:
             handOutResources(board, playerList, roll)
@@ -78,11 +78,12 @@ if __name__ == '__main__':
             if (currentPlayer.isBot):
                 botGameTurn(currentPlayer)
                 notDone = False
-            else:    
+            else:
                 command = input()
                 if (command == "-h"):
                     printHelp()
                 elif (command == "-t"):
+                    currentPlayer.printHand()
                     print("\tWho would you like to trade with? Enter the player's name or type \"bank\" if you would like to trade with the bank.")
                     trader = input("\t")
                     trader = trader.capitalize()
@@ -115,28 +116,32 @@ if __name__ == '__main__':
                     if (usedDevCard):
                         print("\tYou may only use 1 development card per turn.")
                     else:
-                        usedDevCard = True
+                        currentPlayer.printHand()
                         print("\tWhich development card would you like to use? Type -k to use a knight, -y to use Year of Plenty, -m to use monopoly, or -r to use road building.")
                         toUse = input("\t")
                         if (toUse == "-k"):
                             # Ensures they have a knight, and that they didn't just get it this turn.
                             if (currentPlayer.devCardDict["Knight"] - obtainedDevCards["Knight"] - 1 >= 0):
+                                usedDevCard = True
                                 useKnight(board, currentPlayer, playerList)
                             else:
                                 print("\tYou can't use a knight.")
                         elif (toUse == "-y"):
                             if (currentPlayer.devCardDict["Year of Plenty"] - obtainedDevCards["Year of Plenty"] - 1 >= 0):
+                                usedDevCard = True
                                 yearOfPlenty(currentPlayer)
                             else:
                                 print("You can't use year of plenty.")
                         elif (toUse == "-m"):
                             if (currentPlayer.devCardDict["Monopoly"] - obtainedDevCards["Monopoly"] - 1 >= 0):
                                 monopoly(playerList, currentPlayer)
+                                usedDevCard = True
                             else:
                                 print("You can't use monopoly.")
                         elif (toUse == "-r"):
                             if (currentPlayer.devCardDict["Road Building"] - obtainedDevCards["Road Building"] - 1 >= 0):
                                 roadBuilding(board, currentPlayer, playerList)
+                                usedDevCard = True
                             else:
                                 print("You can't use road building.")
                         else:
@@ -152,8 +157,9 @@ if __name__ == '__main__':
                     notDone = False
                 elif (command == "dev"):
                     # DELETE WHEN DONE: ONLY FOR DEVELOPMENT
-                    currentPlayer.resourceDict["wood"] = 10
-                    currentPlayer.resourceDict["brick"] = 10
+                    currentPlayer.resourceDict["sheep"] = 1
+                    currentPlayer.resourceDict["ore"] = 1
+                    currentPlayer.resourceDict["wheat"] = 1
                 else:
                     print("Invalid command.")
 
