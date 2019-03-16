@@ -99,14 +99,14 @@ def buildRoad(board, player, playerList):
     # Get the two vertices the road should connect.
     board.printBoard()
     print()
-    print("\tEnter the number of the first vertex it will connect to.")
+    print("\tPlayer "+ player.name +", enter the number of the first vertex it will connect to.")
     vertex1 = input("\t")
     if (not vertex1.isdigit()):
         print("\tInvalid number.")
         return
     vertex1 = int(vertex1)
 
-    print("\tEnter the number of the second vertex it will connect to.")
+    print("\tPlayer "+ player.name +", enter the number of the second vertex it will connect to.")
     vertex2 = input("\t")
     if (not vertex2.isdigit()):
         print("\tInvalid number.")

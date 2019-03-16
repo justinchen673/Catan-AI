@@ -193,7 +193,7 @@ def placeFirstSettlements(board, playerList):
             toPlace = None
             if(i.isBot ==True):
                 toPlace = botBuildFirstRoad()
-                board.placeRoad(firstVertex, toPlace, i.name)
+                board.placeRoad(firstVertex, toPlace, i, playerList)
                 notPlaced = False
             else:
                 toPlace = int(input())
