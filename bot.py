@@ -2,10 +2,10 @@ from player import *
 
 class Bot(Player):
 
-	def __init__(self,name):
-		Player.__init__(self, name)
+    def __init__(self,name):
+        Player.__init__(self,name)
 
-		self.winStrategy = None
+        self.winStrategy = None
         self.devCardsPlayed = {
             "Knight": 0,
             "Year of Plenty": 0,
