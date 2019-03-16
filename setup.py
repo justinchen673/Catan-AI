@@ -12,6 +12,7 @@ game. The setup phase consists of:
 import random
 from random import shuffle
 from player import Player
+from bot import Bot
 from board import *
 from botFunctions import *
 
