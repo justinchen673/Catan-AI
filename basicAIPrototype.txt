@@ -1,0 +1,190 @@
+http://files.meetup.com/1550090/Settlers%20of%20Catan%20Strategy%20and%20Tactics%20Guide.pdf
+
+********************************************************************************
+STRATEGIES
+********************************************************************************
+
+NOTE: In practice, the bot should use a combination of the following strategies.
+
+1. Ore / Wheat
+    - Obtain much ore and grain early on for cities
+    - Ore is more valuable (3 to 2) and less ore hexes
+    - Helpful to have cities on initial settlements, since those are usually the
+      best ones
+    - Try to make the cities around 3 relatively good hexes instead of 2 bad
+      ones and 1 super good one to counter the robber
+    - Largest army is a goal here, but save knights to counter the robber
+    - Drawbacks are inability to expand
+    - Ideal winning scenario is 4 cities and largest army
+
+2. Wood / Brick
+    - Build settlements and roads
+    - Wood / brick port is very important
+    - Longest road is a goal here
+    - New settlements should go for wheat and ore, or ports that allow for such
+      trading
+
+3. Card Builder
+    - Similar to ore / wheat, where you get 2 quick cities and go for dev cards.
+    - At some point, go for a third settlement / city
+
+4. Balance
+    - Balance all 5 resources
+    - A 3:1 port is very useful
+    - Flexible for changing into other strategies from this one
+
+5. Rare Resource
+    - Look for the rarest resource on the board and place your settlements there
+    - Rarity types:
+        - Rare in overall production (low numbers on those tiles)
+        - Rare in position availability (ore and brick have 3 hexes only)
+    - This is NOT a monopoly strategy, just attempt to obtain them.
+
+6. Straight Numerical Advantage
+    - Go for straight up best production
+    - Only good for early game if you don't really know what to do, but this is
+      NOT a strategy really, this will evolve into the other strategies.
+
+********************************************************************************
+SETUP FACTORS
+********************************************************************************
+
+1. Production Value
+    - Most important factor: consider other factors after this
+    - Easy algorithm for ranking: subtract each of the three adjacent numbers by
+      7, add those up, and subtract that from 18. High numbers are good.
+
+2. Strategy Type
+    - Weigh the resources. Straight production value isn't a strategy by itself.
+
+3. 6 and 8
+    - If two vertices have the same ranking, but one has a 6 or 8, DON'T go for
+      it. They attract robbers and other people.
+    - If your plan involves many knights (card builder), this isn't as bad.
+
+4. Settlement Placement Around 1 Hex
+    - In general, don't do it because of the robber, if they're both yours
+    - If others are on it, that could be good though because those players want
+      the robber off as well.
+
+5. Other Players
+    - If you go first, you may not be able to figure out your strategy until
+      you place the second settlement.
+
+6. Number Distribution
+    - Having two 5's gives the same probability as a 4 and 6, but the two 5's
+      could be better since they can be immediately used, but if the 6 is a
+      better resource, go for that instead.
+
+7. Road Placement
+    - Safe: Build towards the sea and ports
+    - Risky: Build towards the inland
+        - If you do this, figure out if people can get there first
+        - Take into account the strategy you're using. Wood / Brick are best
+          suited for this playstyle, ore / wheat not so much.
+
+8. Connecting Settlements
+    - Mostly only applicable for longest road players
+    - Wait to do this until the later game
+    - If you're doing ore / wheat, may as well just put the settlements in two
+      completely different locations.
+
+********************************************************************************
+EARLY GAME
+********************************************************************************
+
+1. Grow
+    - Growth is exponential, not linear.
+    - So, for early game, focus on increasing production
+
+2. Early Numbers
+    - The numbers in the beginning are way more important than the later ones
+      due to exponential growth rate.
+    - Early robber is also more effective.
+
+3. Number Clumping
+    - This actually happens a lot, when it seems the same number gets rolled
+      over and over again.
+    - Spread out early production centers on different numbers, ESPECIALLY if
+      you have a city based strategy like ore / wheat.
+
+********************************************************************************
+PORTS
+********************************************************************************
+
+1. Highly Essential
+    - You almost certainly need a port to win. Early on they're not too
+      important, but don't get blocked off either.
+    - Try to start near a port or maybe even on one.
+
+2. Port Type
+    - Port type depends on the strategy being used.
+    - This also means that 3:1 ports could be better than 2:1 ports.
+
+3. First Turn Ports
+    - If you have a great hex with a good number right next to a 2:1 port of
+      that resource, that would be a good spot.
+    - Don't do this for the second settlement, as it takes away your starting
+      number of cards.
+
+********************************************************************************
+LARGEST ARMY / LONGEST ROAD
+********************************************************************************
+
+1. Highly Essential
+    - You almost certainly need one or the other to win.
+
+2. Be A Contrarian
+    - Note what resources the competition can get easily, and base your strategy
+      around going for other types of resources. It's a lot harder to get
+      largest army if someone else is doing that.
+
+3. Longest Road Side Trips
+    - Try to avoid side trips if going for the longest road. This reduces the
+      size of your road, and you only have 15 max.
+
+********************************************************************************
+DEVELOPMENT CARDS
+********************************************************************************
+
+1. Don't Count on Victory Points
+    - Those resources you spend could definitely be better spend on building
+      other things. Victory points are nice when you obtain them, but don't
+      count on drawing them.
+
+2. Don't Use Knights Too Early
+    - Save them to keep the robber off your hexes
+    - Since you can only use one dev card per turn, if you're going for largest
+      army, keep that in mind.
+
+3. Early Game?
+    - In general, don't draw too many early on. If you get a victory point, it
+      can really hurt your future development since it adds nothing, and growth
+      is exponential.
+
+4. Save Road Building if you can
+
+5. Consider Dev Cards If You Can't Build
+
+6. Knights are helpful, since 7 is rolled only once every 6 turns on average.
+
+********************************************************************************
+TRADING
+********************************************************************************
+
+1. Trading early is usually better
+
+2. Try to trade on your turn or close to your turn
+
+3. Trade with those far away from their turn
+
+4. Trade with those who are losing
+
+********************************************************************************
+ROBBER PLACEMENT
+********************************************************************************
+
+1. Place it on a resource that you already have a supply of, or someone who is
+   ahead, or someone who has a resource you need
+
+2. Place it on a hex with fewer people, so it stays there longer.
