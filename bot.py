@@ -34,12 +34,12 @@ class Bot(Player):
 
     def findPossibleDevCardsinDeck (self):
         possibleDevCards = ["Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Knight", "Year of Plenty", "Year of Plenty", "Monopoly", "Monopoly", "Road Building", "Road Building", "Victory Point", "Victory Point", "Victory Point", "Victory Point", "Victory Point"]
-        for key in devCardsPlayed:
+        for key in self.devCardsPlayed:
             for i in range(0, devCardsPlayed[key]):
                 possibleDevCards.remove(key)
 
-        for key in devCardDict:
-            for i in range(0, devCardDict[key]):
+        for key in self.devCardDict:
+            for i in range(0, self.devCardDict[key]):
                 possibleDevCards.remove(key)
 
         return possibleDevCards
@@ -47,7 +47,7 @@ class Bot(Player):
 
     def findNumUnknownDevCards(self, possDevCards):
         numCardsPlayed = 25 -  len(possDevCards)
-        return numCardsOut - numCardsPlayed
+        return self.numCardsOut - numCardsPlayed
 
 
     def findCombosofDevCardsUnplayed(self):
@@ -85,7 +85,7 @@ class Bot(Player):
 
     def checkDevCardProb(self):
          
-        return true
+        return True
 
     def devCardSanityCheck(self):
     	cards = self.numCardsOut + self.devCardDeckSize
