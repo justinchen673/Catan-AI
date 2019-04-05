@@ -1,0 +1,19 @@
+********************************************************************************
+SETUP PHASE
+********************************************************************************
+
+"""
+This phase is based around building the initial settlements and roads, as well
+as picking an initial strategy (one of the 6 in basicAIPrototype).
+"""
+
+1. Wait for your turn to place.
+2. Things to take into account (based on order of importance):
+    Production value of each vertex
+    Combination power (ore / wheat, wood / brick)
+    Closeness to ports (more important for 2nd)
+    What other opponents are doing
+3. Pick the vertex, and then start basing a strategy around that vertex.
+4. For the second vertex, repeat the process, but taking into account what you
+   already placed. The strategy may change.
+5. 
