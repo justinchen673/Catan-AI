@@ -167,4 +167,3 @@ class Win:
 		return self.totalCost < other.totalCost
 
 
-
