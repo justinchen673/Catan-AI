@@ -157,9 +157,11 @@ if __name__ == '__main__':
                     notDone = False
                 elif (command == "dev"):
                     # DELETE WHEN DONE: ONLY FOR DEVELOPMENT
-                    currentPlayer.resourceDict["sheep"] = 1
-                    currentPlayer.resourceDict["ore"] = 1
-                    currentPlayer.resourceDict["wheat"] = 1
+                    currentPlayer.resourceDict["sheep"] = 10
+                    currentPlayer.resourceDict["ore"] = 10
+                    currentPlayer.resourceDict["wheat"] = 10
+                    currentPlayer.resourceDict["brick"] = 10
+                    currentPlayer.resourceDict["wood"] = 10
                 else:
                     print("Invalid command.")
 

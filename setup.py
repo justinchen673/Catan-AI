@@ -169,7 +169,7 @@ def placeFirstSettlements(board, playerList):
             print("Player " + i.name + ", select the vertex where you want to place your first settlement: ")
             toPlace = None
             if (i.isBot == True):
-                toPlace = botPlaceFirstSettlement()
+                toPlace = botPlaceFirstSettlement(board, playerList, i.name)
                 board.placeSettlement(toPlace, i)
                 firstVertex = toPlace
                 notPlaced = False
@@ -243,7 +243,7 @@ def placeFirstSettlements(board, playerList):
         notPlaced = True
         while(notPlaced):
             print("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? ")
-            
+
             toPlace = None
             if(playerList[i].isBot == True):
                 toPlace = botBuildSecondRoad()
