@@ -1,0 +1,24 @@
+Experience with Catan AI Project - Nicholas Jung
+
+During the Spring Semester of 2019, I was happy to take part in the Catan AI project led by Justin Chen,
+along with team member Ishita Padhiar.
+
+At the start of the semester, we started from scratch and were inspired by the game of Catan, which we
+usually played for hours on end. We thought, for an RCOS project, why not create an AI that can simulate
+a Catan game for us? After all it was a simple game to play but had so many strategies within it. Since this
+was the second time for me doing RCOS, I believed that we could learn a lot more about game AI and see
+if it was something I was interested in.
+
+ We started off with developing the implementation of the game. Before we could create an AI, we needed to
+ have a game that we can run the AI on. Hence, I took part in helping Justin with the implementation of
+ Catan, while Ishita resaearched more about Catan AI. This was a difficult task for me, since I knew much less
+ about coding than Justin. However, I believed that I learned more about game design and logic after working with
+ Justin. 
+ 
+ Once the game implementation was finished, Justin and Ishita worked more towards development of an AI, while I 
+ worked on debugging and error testing with specific functions. 
+ 
+ I think Catan AI has opened me up more into understanding how game AI works and how it can be implemented from
+ a student perspective. I've learned a lot more about software and logic and its applications outside of class.
+ For the Fall semester I will join RCOS again and focus on finding another project somewhat related so I could
+ learn more about coding.
