@@ -169,7 +169,7 @@ def placeFirstSettlements(board, playerList):
             print("Player " + i.name + ", select the vertex where you want to place your first settlement: ")
             toPlace = None
             if (i.isBot == True):
-                toPlace = botPlaceFirstSettlement(board, playerList, i.name)
+                toPlace = botPlaceFirstSettlement(board, i)
                 board.placeSettlement(toPlace, i)
                 firstVertex = toPlace
                 notPlaced = False

@@ -27,7 +27,19 @@ def botChooseWhoToRob():
 def botPlaceSettlement():
 	return
 
-def botPlaceFirstSettlement(board, playerList, botName):
+def botPlaceFirstSettlement(board, bot):
+	'''
+	Places the first settlement.
+	1. Lists the vertices by how good the surrounding numbers.
+	2. Narrows it down to a certain threshold (arbitrary but tested).
+	3. Categorizes the vertices into 3 separate strategies: If there's lots of
+	   ore / wheat, it goes that strategy, same for wood / brick. If it fits
+	   neither, it's categorized as a straight numerical advantage.
+	4. The bot will go with ore/wheat or wood/brick if any exist. If not, it'll
+	   go for a straight numerical advantage.
+	'''
+
+	# chances that a certain number will be rolled on any given dice roll
 	probabilityDict = {
 		0: 0,
 		2: .02778,
@@ -43,7 +55,9 @@ def botPlaceFirstSettlement(board, playerList, botName):
 		12: .02778
 	}
 
-	# vertexRanks contains the rank (low is good) and the resources it gets
+	# vertexRanks contains the rank (low is good) and the resources it gets.
+	# Rank is based on the likelihood of getting a resource from that vertex on
+	# any given dice roll
 	vertexRanks = []
 	for i in range(0, 54):
 		vertexRanks.append([0, [], i])
@@ -54,7 +68,7 @@ def botPlaceFirstSettlement(board, playerList, botName):
 			vertexRanks[vertex][1].append((hex.resourceType, hex.number))
 		hexNum += 1
 
-	# for the first settlement:
+	# Narrows down the list of good placement vertices
 	potentialFirsts = []
 	for vertex in vertexRanks:
 		if len(vertex[1]) == 1:
@@ -62,15 +76,15 @@ def botPlaceFirstSettlement(board, playerList, botName):
 		elif len(vertex[1]) == 2:
 			vertex[0] += 7
 
-		if (vertex[0] < 9 and board.canPlaceSettlement(vertex[2], botName, playerList)):
+		if (vertex[0] < 9 and board.canPlaceSettlement(vertex[2], bot.name, True)):
 			potentialFirsts.append(vertex)
 
+	# Categorize vertices as these 3 categories
 	oreWheatVertices = []
 	woodBrickVertices = []
 	straightNumVertices = []
 
 	for vertex in potentialFirsts:
-		#print(vertex)
 		resourceDict = {
 			"wheat": 0,
 			"sheep": 0,
@@ -88,17 +102,15 @@ def botPlaceFirstSettlement(board, playerList, botName):
 			woodBrickVertices.append((vertex, resourceDict["wood"] + resourceDict["brick"]))
 		elif (vertex[0] <= 7):
 			straightNumVertices.append(vertex)
-	print("OREWHEAT", oreWheatVertices)
-	print("WOODBRICK", woodBrickVertices)
-	print("STRAIGHNUM", straightNumVertices)
 
 	# Start selecting a vertex after narrowing down to the three strategies
-	print()
 	chosenVertex = None
 
 	# Prioritize ore / wheat since it's the least likely
 	if (len(oreWheatVertices) != 0):
-		print("Picked ore / wheat")
+		# Set bot strategy as ore/wheat
+		bot.oreWheat = True
+		# If multiple exist, use the best one.
 		for vertex in oreWheatVertices:
 			if chosenVertex == None:
 				chosenVertex = vertex
@@ -109,7 +121,9 @@ def botPlaceFirstSettlement(board, playerList, botName):
 					chosenVertex = vertex
 		return chosenVertex[0][2]
 	elif (len(woodBrickVertices) != 0):
-		print("Picked wood / brick")
+		# Set bot strategy as wood/brick
+		bot.woodBrick = True
+		# If multiple exist, use the best one.
 		for vertex in woodBrickVertices:
 			if chosenVertex == None:
 				chosenVertex = vertex
@@ -120,7 +134,9 @@ def botPlaceFirstSettlement(board, playerList, botName):
 					chosenVertex = vertex
 		return chosenVertex[0][2]
 	else:
-		print("Picked straight num")
+		# Set bot strategy as numerical
+		bot.straightNum = True
+		# Last resort, use straight numerical advantage
 		for vertex in straightNumVertices:
 			if chosenVertex == None:
 				chosenVertex = vertex

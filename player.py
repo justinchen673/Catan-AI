@@ -33,7 +33,11 @@ class Player:
         self.longestRoadLength = 0
         self.largestArmy = False
         self.longestRoad = False
+        # Bot stuff, including the three potential strategies it follows 
         self.isBot = False
+        self.oreWheat = False
+        self.woodBrick = False
+        self.straightNum = False
 
 
     def printHand(self):
