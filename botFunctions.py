@@ -154,7 +154,8 @@ def botBuildRoad():
 def botBuildSecondRoad():
 	return
 
-def botBuildFirstRoad():
+def botBuildFirstRoad(board, bot, firstVertex):
+	
 	return
 
 def botTradeAcceptance():

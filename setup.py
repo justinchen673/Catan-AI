@@ -192,7 +192,7 @@ def placeFirstSettlements(board, playerList):
             print("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? ")
             toPlace = None
             if(i.isBot ==True):
-                toPlace = botBuildFirstRoad()
+                toPlace = botBuildFirstRoad(board, bot, firstVertex)
                 board.placeRoad(firstVertex, toPlace, i, playerList)
                 notPlaced = False
             else:
