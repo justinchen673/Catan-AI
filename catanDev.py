@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
 	#print(potentialFirsts)
 	#print()
-	
+
 	# Categorize vertices as these 3 categories
 	oreWheatVertices = []
 	woodBrickVertices = []
