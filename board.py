@@ -320,7 +320,7 @@ class Board:
             self.roads[(vertex2, vertex1)] = player.name + player.name
 
         self.assignLongestRoad(player, playerList)
-        
+
 
 
     def findRoadEdges(self, playerRoads):

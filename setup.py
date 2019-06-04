@@ -192,7 +192,7 @@ def placeFirstSettlements(board, playerList):
             print("Your road will start at vertex " + str(firstVertex) + ". Which vertex do you want it to link to? ")
             toPlace = None
             if(i.isBot ==True):
-                toPlace = botBuildFirstRoad(board, bot, firstVertex)
+                toPlace = botBuildFirstRoad(board, firstVertex)
                 board.placeRoad(firstVertex, toPlace, i, playerList)
                 notPlaced = False
             else:
@@ -220,7 +220,7 @@ def placeFirstSettlements(board, playerList):
             print("Player " + playerList[i].name + ", select the vertex where you want to place your second settlement: ")
             toPlace = None
             if(playerList[i].isBot == True):
-                toPlace = botPlaceSecondSettlement()
+                toPlace = botPlaceSecondSettlement(board, playerList[i])
                 board.placeSettlement(toPlace, playerList[i])
                 firstVertex = toPlace
                 notPlaced = False
@@ -246,18 +246,18 @@ def placeFirstSettlements(board, playerList):
 
             toPlace = None
             if(playerList[i].isBot == True):
-                toPlace = botBuildSecondRoad()
-                board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
-                notPlaced = False
-
-            toPlace = int(input())
-            if (board.canPlaceRoad(firstVertex, toPlace, playerList[i].name)):
-                # Legal placement
+                toPlace = botBuildSecondRoad(board, firstVertex)
                 board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
                 notPlaced = False
             else:
-                # Non legal placement
-                print("Please enter a valid vertex.")
+                toPlace = int(input())
+                if (board.canPlaceRoad(firstVertex, toPlace, playerList[i].name)):
+                    # Legal placement
+                    board.placeRoad(firstVertex, toPlace, playerList[i], playerList)
+                    notPlaced = False
+                else:
+                    # Non legal placement
+                    print("Please enter a valid vertex.")
 
 
     # Hand out first resource
