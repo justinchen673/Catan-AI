@@ -19,6 +19,7 @@ def printHelp():
     Outputs a list of commands that a user can call during their turn.
     '''
 
+    print("\t-p is for viewing your current hand.")
     print("\t-t is for trading, either with a player or with the bank.")
     print("\t-b is for building.")
     print("\t-d is for using a development card.")
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 
     # Game Phase
     currentPlayerIndex = 0
-    while(not playerList[currentPlayerIndex].victorious()):
+    while(True):
 
         currentPlayer = playerList[currentPlayerIndex]
 
@@ -147,6 +148,8 @@ if __name__ == '__main__':
                         else:
                             print("\tInvalid command.")
                             usedDevCard = False
+                elif (command == "-p"):
+                    currentPlayer.printHand()
                 elif (command == "-e"):
                     usedDevCard = False
                     obtainedDevCards["Knight"] = 0
@@ -165,9 +168,14 @@ if __name__ == '__main__':
                 else:
                     print("Invalid command.")
 
+        # End game if player just won through this turn
+        if currentPlayer.victorious():
+            break
 
         # Switch the current player
         if (currentPlayerIndex != len(playerList) - 1):
             currentPlayerIndex += 1
         else:
             currentPlayerIndex = 0
+
+    print("Player " + playerList[currentPlayerIndex].name + " is the winner!")
